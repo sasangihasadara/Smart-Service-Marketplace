@@ -1,9 +1,15 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { serviceCategoryPages, topProviders } from "../../data/serveiqData";
+
+function singularize(name) {
+  return name.endsWith("s") ? name.slice(0, -1) : name;
+}
 
 export default function CategoryPage({ onOpenModal }) {
   const { slug } = useParams();
+  const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState("rating");
 
   const category = serviceCategoryPages.find((item) => item.slug === slug);
 
@@ -12,8 +18,30 @@ export default function CategoryPage({ onOpenModal }) {
       return [];
     }
 
-    return topProviders.filter((provider) => provider.category === category.name);
-  }, [category]);
+    const filtered = topProviders.filter(
+      (provider) =>
+        provider.category === category.name &&
+        `${provider.name} ${provider.title} ${provider.details}`.toLowerCase().includes(query.toLowerCase())
+    );
+
+    const sorted = [...filtered].sort((a, b) => {
+      if (sortBy === "rating") {
+        return parseFloat(b.rating) - parseFloat(a.rating);
+      }
+
+      if (sortBy === "price") {
+        return parseInt(a.price.replace(/[^0-9]/g, ""), 10) - parseInt(b.price.replace(/[^0-9]/g, ""), 10);
+      }
+
+      if (sortBy === "jobs") {
+        return parseInt(b.jobs.replace(/,/g, ""), 10) - parseInt(a.jobs.replace(/,/g, ""), 10);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [category, query, sortBy]);
 
   if (!category) {
     return <Navigate to="/services" replace />;
@@ -31,18 +59,28 @@ export default function CategoryPage({ onOpenModal }) {
 
           <div className="category-hero-grid">
             <div className="category-hero-copy">
-              <div className="category-icon-badge">{category.icon}</div>
+              <div className="category-hero-top">
+                <div className="category-icon-badge">{category.icon}</div>
+                <div className="category-live-pill">Live category page</div>
+              </div>
+
               <h1 className="category-title">{category.name}</h1>
               <p className="category-headline">{category.headline}</p>
               <p className="category-description">{category.description}</p>
 
               <div className="category-hero-actions">
                 <button type="button" className="btn btn-primary btn-lg" onClick={() => onOpenModal("booking")}>
-                  Book a {category.name.slice(0, -1)}
+                  Book a {singularize(category.name)}
                 </button>
                 <Link to="/services" className="btn btn-ghost btn-lg">
                   Back to Services
                 </Link>
+              </div>
+
+              <div className="category-quick-tags">
+                <span>Verified professionals</span>
+                <span>Fast response</span>
+                <span>Secure booking</span>
               </div>
             </div>
 
@@ -66,6 +104,44 @@ export default function CategoryPage({ onOpenModal }) {
                   <span>Response Time</span>
                 </div>
               </div>
+              <div className="category-stats-footer">
+                <div>
+                  <span>Top Match</span>
+                  <strong>{providers[0]?.name || "—"}</strong>
+                </div>
+                <div>
+                  <span>Available Now</span>
+                  <strong>{providers.length}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="category-search-panel">
+        <div className="container">
+          <div className="category-search-card">
+            <div className="category-search-field">
+              <label>Search providers</label>
+              <input
+                type="text"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={`Search ${category.name.toLowerCase()}...`}
+              />
+            </div>
+            <div className="category-search-field">
+              <label>Sort by</label>
+              <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+                <option value="rating">Best rating</option>
+                <option value="jobs">Most jobs</option>
+                <option value="price">Lowest price</option>
+              </select>
+            </div>
+            <div className="category-search-summary">
+              <span>Showing</span>
+              <strong>{providers.length} providers</strong>
             </div>
           </div>
         </div>
@@ -90,16 +166,20 @@ export default function CategoryPage({ onOpenModal }) {
           <div className="category-section-head">
             <div>
               <div className="section-label">Featured Providers</div>
-              <h2 className="section-title">Modern UI, tailored for {category.name}</h2>
+              <h2 className="section-title">Best professionals for {category.name}</h2>
             </div>
             <p className="section-sub">
-              These are the top-rated professionals currently available in this category.
+              Curated provider list with modern cards, live stats, and instant booking actions.
             </p>
           </div>
 
           <div className="providers-grid category-providers-grid">
             {providers.map((provider) => (
               <article className="provider-card provider-card--large" key={provider.name}>
+                <div className="provider-card-topline">
+                  <span className="provider-spotlight">Top rated</span>
+                  <span className="provider-response">Response: fast</span>
+                </div>
                 <div className="prov-header">
                   <div className="prov-avatar" style={{ background: provider.color }}>
                     {provider.initials}
@@ -111,10 +191,19 @@ export default function CategoryPage({ onOpenModal }) {
                   </div>
                 </div>
                 <div className="provider-details">{provider.details}</div>
-                <div className="prov-stats">
-                  <div className="prov-stat"><strong>{provider.rating}</strong><span>Rating</span></div>
-                  <div className="prov-stat"><strong>{provider.jobs}</strong><span>Jobs</span></div>
-                  <div className="prov-stat"><strong>{provider.complete}</strong><span>Complete</span></div>
+                <div className="provider-activity">
+                  <div>
+                    <strong>{provider.rating}</strong>
+                    <span>Rating</span>
+                  </div>
+                  <div>
+                    <strong>{provider.jobs}</strong>
+                    <span>Jobs</span>
+                  </div>
+                  <div>
+                    <strong>{provider.complete}</strong>
+                    <span>Complete</span>
+                  </div>
                 </div>
                 <div className="prov-footer">
                   <div className="prov-price">{provider.price} <span>{provider.unit}</span></div>
