@@ -21,6 +21,7 @@ function AppShell() {
   const [modalTab, setModalTab] = useState("customer");
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [toast, setToast] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,6 +65,15 @@ function AppShell() {
     navigate("/register");
   };
 
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    navigate("/services");
+
+    window.requestAnimationFrame(() => {
+      document.getElementById("providers")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   const handleSignIn = () => {
     const role = modalTab === "admin" ? "admin" : modalTab === "provider" ? "provider" : "customer";
     localStorage.setItem("serveiq_role", role);
@@ -87,7 +97,12 @@ function AppShell() {
           path="/services"
           element={
             <UserLayout onOpenModal={openModal}>
-              <ServicesPage onToast={showToast} />
+              <ServicesPage
+                onToast={showToast}
+                selectedCategory={selectedCategory}
+                onCategorySelect={handleCategorySelect}
+                onOpenModal={openModal}
+              />
             </UserLayout>
           }
         />
