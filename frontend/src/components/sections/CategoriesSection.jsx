@@ -1,26 +1,26 @@
-import { serviceCategories } from "../../data/serveiqData";
+import { Link } from "react-router-dom";
+import { serviceCategoryPages } from "../../data/serveiqData";
 import SectionHeader from "../SectionHeader";
 
-export default function CategoriesSection({ onToast, selectedCategory, onCategorySelect }) {
+export default function CategoriesSection({ onToast }) {
   return (
     <section id="categories">
       <div className="container">
         <SectionHeader label="📋 Service Categories" title="Every Service You Need" />
         <div className="category-grid">
-          {serviceCategories.map(([name, icon, count]) => (
-            <button
-              type="button"
-              className={`cat-card ${selectedCategory === name ? "active" : ""}`}
-              key={name}
+          {serviceCategoryPages.map((category) => (
+            <Link
+              to={`/category/${category.slug}`}
+              className="cat-card"
+              key={category.slug}
               onClick={() => {
-                onCategorySelect(name);
-                onToast(`Filtering providers for ${name}...`, icon);
+                onToast(`Opening ${category.name} page...`, category.icon);
               }}
             >
-              <div className="cat-icon">{icon}</div>
-              <div className="cat-name">{name}</div>
-              <div className="cat-count">{count}</div>
-            </button>
+              <div className="cat-icon">{category.icon}</div>
+              <div className="cat-name">{category.name}</div>
+              <div className="cat-count">{category.stats.providers} providers</div>
+            </Link>
           ))}
         </div>
       </div>

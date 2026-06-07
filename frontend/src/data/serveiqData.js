@@ -309,3 +309,246 @@ export const modalDefaults = {
   register: "provider",
   booking: "booking",
 };
+
+export const serviceCategoryPages = [
+  {
+    slug: "electricians",
+    name: "Electricians",
+    icon: "⚡",
+    headline: "Power, wiring, repairs, and safe electrical work done right.",
+    description:
+      "Book verified electricians for home wiring, solar connections, circuit repairs, appliance issues, and emergency electrical support.",
+    accent: "#5B4EFF",
+    stats: {
+      providers: 842,
+      rating: "4.9★",
+      avgPrice: "LKR 2,500",
+      response: "< 10 min",
+    },
+    benefits: [
+      "Emergency fault detection",
+      "Certified safety-first work",
+      "Home, office, and industrial support",
+    ],
+  },
+  {
+    slug: "plumbers",
+    name: "Plumbers",
+    icon: "🔧",
+    headline: "Leak fixes, pipe installation, drainage, and water system care.",
+    description:
+      "Find experienced plumbers for leak repairs, drainage issues, bathroom fittings, pipe replacement, and urgent water problems.",
+    accent: "#00D4AA",
+    stats: {
+      providers: 631,
+      rating: "4.8★",
+      avgPrice: "LKR 3,000",
+      response: "< 12 min",
+    },
+    benefits: [
+      "Leak detection and repair",
+      "Drainage and bathroom solutions",
+      "Trusted for home and office plumbing",
+    ],
+  },
+  {
+    slug: "ac-technicians",
+    name: "AC Technicians",
+    icon: "❄️",
+    headline: "Fast AC installation, servicing, and cooling system repairs.",
+    description:
+      "Book AC technicians for installation, gas refills, maintenance, filter cleaning, compressor issues, and seasonal servicing.",
+    accent: "#F59E0B",
+    stats: {
+      providers: 412,
+      rating: "4.8★",
+      avgPrice: "LKR 2,200",
+      response: "< 15 min",
+    },
+    benefits: [
+      "Preventive AC maintenance",
+      "Fast diagnostic support",
+      "Residential and commercial service",
+    ],
+  },
+  {
+    slug: "tutors",
+    name: "Tutors",
+    icon: "📚",
+    headline: "Personalized learning support for school, university, and skills.",
+    description:
+      "Discover tutors for maths, science, languages, coding, exam prep, and one-to-one academic improvement.",
+    accent: "#8B5CF6",
+    stats: {
+      providers: 1204,
+      rating: "5.0★",
+      avgPrice: "LKR 2,000",
+      response: "< 20 min",
+    },
+    benefits: [
+      "Flexible online or in-person sessions",
+      "Exam-focused learning plans",
+      "Student progress tracking",
+    ],
+  },
+  {
+    slug: "cleaners",
+    name: "Cleaners",
+    icon: "🧹",
+    headline: "Reliable home, office, and deep cleaning services.",
+    description:
+      "Hire trusted cleaners for regular housekeeping, deep cleaning, post-renovation cleanup, and office hygiene support.",
+    accent: "#10B981",
+    stats: {
+      providers: 988,
+      rating: "4.8★",
+      avgPrice: "LKR 1,800",
+      response: "< 8 min",
+    },
+    benefits: [
+      "Flexible one-time or recurring jobs",
+      "Deep cleaning and sanitizing",
+      "Background-checked professionals",
+    ],
+  },
+  {
+    slug: "photographers",
+    name: "Photographers",
+    icon: "📸",
+    headline: "Modern event, portrait, and commercial photography services.",
+    description:
+      "Book photographers for weddings, birthdays, corporate events, portraits, products, and social media content.",
+    accent: "#EC4899",
+    stats: {
+      providers: 376,
+      rating: "4.9★",
+      avgPrice: "LKR 8,500",
+      response: "< 30 min",
+    },
+    benefits: [
+      "Event and portrait coverage",
+      "High-resolution editing",
+      "Session-based pricing options",
+    ],
+  },
+  {
+    slug: "carpenters",
+    name: "Carpenters",
+    icon: "🏗️",
+    headline: "Furniture, repairs, custom builds, and woodwork made easy.",
+    description:
+      "Connect with carpenters for custom furniture, wood repairs, shelving, doors, and home improvement projects.",
+    accent: "#14B8A6",
+    stats: {
+      providers: 529,
+      rating: "4.7★",
+      avgPrice: "LKR 3,400",
+      response: "< 14 min",
+    },
+    benefits: [
+      "Custom woodwork solutions",
+      "Home and office repair work",
+      "Design-friendly craftsmanship",
+    ],
+  },
+  {
+    slug: "painters",
+    name: "Painters",
+    icon: "🎨",
+    headline: "Interior and exterior painting with a professional finish.",
+    description:
+      "Hire painters for walls, ceilings, exteriors, waterproofing, and decorative finishing with clean execution.",
+    accent: "#14B8A6",
+    stats: {
+      providers: 445,
+      rating: "4.8★",
+      avgPrice: "LKR 2,800",
+      response: "< 16 min",
+    },
+    benefits: [
+      "Interior and exterior painting",
+      "Color consultation options",
+      "Clean and timely project completion",
+    ],
+  },
+  {
+    slug: "home-cooks",
+    name: "Home Cooks",
+    icon: "🍳",
+    headline: "Personal chefs and home-cooked meal service on demand.",
+    description:
+      "Find home cooks for family meals, event catering, meal prep, and special dietary menus.",
+    accent: "#F97316",
+    stats: {
+      providers: 312,
+      rating: "4.9★",
+      avgPrice: "LKR 2,000",
+      response: "< 25 min",
+    },
+    benefits: [
+      "Custom meal planning",
+      "Event and family catering",
+      "Dietary preferences supported",
+    ],
+  },
+  {
+    slug: "drivers",
+    name: "Drivers",
+    icon: "🚗",
+    headline: "Safe, punctual, and flexible driver booking for daily needs.",
+    description:
+      "Book drivers for errands, personal trips, airport transfers, school runs, and corporate transport support.",
+    accent: "#2563EB",
+    stats: {
+      providers: 678,
+      rating: "4.8★",
+      avgPrice: "LKR 2,400",
+      response: "< 9 min",
+    },
+    benefits: [
+      "Daily and long-distance rides",
+      "Professional, trusted drivers",
+      "Flexible booking windows",
+    ],
+  },
+  {
+    slug: "it-support",
+    name: "IT Support",
+    icon: "💻",
+    headline: "Technical support for devices, networks, and software.",
+    description:
+      "Get IT support for laptops, desktops, Wi-Fi issues, software installation, troubleshooting, and office setups.",
+    accent: "#3B82F6",
+    stats: {
+      providers: 284,
+      rating: "4.9★",
+      avgPrice: "LKR 4,000",
+      response: "< 18 min",
+    },
+    benefits: [
+      "Remote or on-site support",
+      "Hardware and software troubleshooting",
+      "Fast issue diagnosis",
+    ],
+  },
+  {
+    slug: "gardeners",
+    name: "Gardeners",
+    icon: "🌿",
+    headline: "Gardening, landscaping, and outdoor maintenance services.",
+    description:
+      "Book gardeners for lawn care, trimming, planting, landscaping, and seasonal garden cleanups.",
+    accent: "#22C55E",
+    stats: {
+      providers: 198,
+      rating: "4.7★",
+      avgPrice: "LKR 2,100",
+      response: "< 22 min",
+    },
+    benefits: [
+      "Lawn and garden maintenance",
+      "Planting and landscaping",
+      "Scheduled care or one-time jobs",
+    ],
+  },
+];
