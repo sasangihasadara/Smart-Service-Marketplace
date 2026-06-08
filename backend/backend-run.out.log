@@ -16893,3 +16893,981 @@ Hibernate:
 2026-06-08T22:47:12.861+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-06-08T22:47:13.140+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[{reviewNote=Verified documents and approved for marketplace access., price=LKR 8,500/session, jobs= (truncated)...]
 2026-06-08T22:47:13.143+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-06-08T22:47:49.982+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/providers", parameters={}
+2026-06-08T22:47:49.983+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.serveiq.controller.ProviderController#getProviders()
+2026-06-08T22:47:49.987+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        au1_0.id,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.first_name,
+        au1_0.jobs_completed,
+        au1_0.last_name,
+        au1_0.password_hash,
+        au1_0.phone_number,
+        au1_0.price_text,
+        au1_0.rating,
+        au1_0.review_note,
+        au1_0.reviewed_at,
+        au1_0.role,
+        au1_0.service_category,
+        au1_0.status,
+        au1_0.years_of_experience 
+    from
+        app_users au1_0 
+    where
+        au1_0.role=? 
+        and au1_0.status=? 
+    order by
+        au1_0.created_at desc
+Hibernate: 
+    select
+        au1_0.id,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.first_name,
+        au1_0.jobs_completed,
+        au1_0.last_name,
+        au1_0.password_hash,
+        au1_0.phone_number,
+        au1_0.price_text,
+        au1_0.rating,
+        au1_0.review_note,
+        au1_0.reviewed_at,
+        au1_0.role,
+        au1_0.service_category,
+        au1_0.status,
+        au1_0.years_of_experience 
+    from
+        app_users au1_0 
+    where
+        au1_0.role=? 
+        and au1_0.status=? 
+    order by
+        au1_0.created_at desc
+2026-06-08T22:47:50.001+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.010+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.020+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.037+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.040+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.075+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.085+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.096+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.099+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.122+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.142+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.154+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.173+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.185+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:47:50.188+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-08T22:47:50.189+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[{reviewNote=Verified documents and approved for marketplace access., price=LKR 8,500/session, jobs= (truncated)...]
+2026-06-08T22:47:50.190+05:30 DEBUG 10124 --- [serveiq-backend] [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-06-08T22:47:59.998+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/providers", parameters={}
+2026-06-08T22:48:00.229+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.serveiq.controller.ProviderController#getProviders()
+2026-06-08T22:48:00.250+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        au1_0.id,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.first_name,
+        au1_0.jobs_completed,
+        au1_0.last_name,
+        au1_0.password_hash,
+        au1_0.phone_number,
+        au1_0.price_text,
+        au1_0.rating,
+        au1_0.review_note,
+        au1_0.reviewed_at,
+        au1_0.role,
+        au1_0.service_category,
+        au1_0.status,
+        au1_0.years_of_experience 
+    from
+        app_users au1_0 
+    where
+        au1_0.role=? 
+        and au1_0.status=? 
+    order by
+        au1_0.created_at desc
+Hibernate: 
+    select
+        au1_0.id,
+        au1_0.created_at,
+        au1_0.email,
+        au1_0.first_name,
+        au1_0.jobs_completed,
+        au1_0.last_name,
+        au1_0.password_hash,
+        au1_0.phone_number,
+        au1_0.price_text,
+        au1_0.rating,
+        au1_0.review_note,
+        au1_0.reviewed_at,
+        au1_0.role,
+        au1_0.service_category,
+        au1_0.status,
+        au1_0.years_of_experience 
+    from
+        app_users au1_0 
+    where
+        au1_0.role=? 
+        and au1_0.status=? 
+    order by
+        au1_0.created_at desc
+2026-06-08T22:48:00.777+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:01.241+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:01.519+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:01.875+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:02.100+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:02.184+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:02.196+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:02.500+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:02.944+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:03.262+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:03.630+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:03.680+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:04.214+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:04.262+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.booking_code,
+        b1_0.booking_date,
+        b1_0.booking_time,
+        b1_0.call_out_fee,
+        b1_0.created_at,
+        b1_0.customer_email,
+        b1_0.customer_name,
+        b1_0.customer_phone,
+        b1_0.description,
+        b1_0.location,
+        b1_0.payment_method,
+        b1_0.provider_name,
+        b1_0.service_fee,
+        b1_0.service_required,
+        b1_0.status,
+        b1_0.total_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    where
+        upper(b1_0.provider_name)=upper(?)
+2026-06-08T22:48:04.265+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-08T22:48:04.277+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[{reviewNote=Verified documents and approved for marketplace access., price=LKR 8,500/session, jobs= (truncated)...]
+2026-06-08T22:48:04.287+05:30 DEBUG 10124 --- [serveiq-backend] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
