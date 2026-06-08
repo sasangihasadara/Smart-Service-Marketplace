@@ -3284,6 +3284,169 @@ section {
   color: #dc2626;
 }
 
+.admin-dashboard-hero-copy,
+.admin-hero-card,
+.admin-panel,
+.admin-banner,
+.admin-loading,
+.admin-metric-card,
+.admin-card,
+.admin-table-wrap,
+.admin-activity-item,
+.admin-mini-card {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(224, 242, 254, 0.92));
+  border-color: rgba(147, 197, 253, 0.48);
+  box-shadow: 0 18px 45px rgba(59, 130, 246, 0.08);
+}
+
+.admin-dashboard-hero-copy,
+.admin-hero-card,
+.admin-panel {
+  backdrop-filter: blur(18px);
+}
+
+.admin-metric-card::before {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.2), transparent 70%);
+}
+
+.admin-hero-pill,
+.admin-panel-badge,
+.admin-section-meta {
+  background: rgba(219, 234, 254, 0.9);
+  border-color: rgba(147, 197, 253, 0.55);
+  color: #2563eb;
+}
+
+.admin-hero-metrics div,
+.admin-mini-card,
+.admin-card-stats div {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.92), rgba(224, 242, 254, 0.88));
+  border-color: rgba(147, 197, 253, 0.38);
+}
+
+.admin-banner.warning,
+.admin-banner.success {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(224, 242, 254, 0.9));
+  border-color: rgba(147, 197, 253, 0.48);
+  color: #1d4ed8;
+}
+
+.admin-metric-value,
+.admin-card-top h3,
+.admin-panel-head h3,
+.admin-hero-card-head span:first-child,
+.admin-hero-metrics strong,
+.admin-mini-card strong {
+  color: #0f172a;
+}
+
+.admin-panel-head p,
+.admin-card-top p,
+.admin-hero-note,
+.admin-card-footer,
+.admin-table tbody td,
+.admin-activity-item p,
+.admin-mini-card span,
+.admin-hero-metrics span {
+  color: #475569;
+}
+
+.admin-table thead th {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(224, 242, 254, 0.92));
+  border-bottom-color: rgba(147, 197, 253, 0.42);
+  color: #64748b;
+}
+
+.admin-table tbody tr:hover td {
+  background: rgba(219, 234, 254, 0.55);
+}
+
+.admin-card-stats span,
+.admin-metric-label {
+  color: #64748b;
+}
+
+.admin-card-note {
+  color: #64748b;
+}
+
+.admin-empty-state {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.95), rgba(224, 242, 254, 0.88));
+  border-color: rgba(147, 197, 253, 0.4);
+}
+
+.admin-activity-dot {
+  background: #38bdf8;
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.14);
+}
+
+.admin-status.green,
+.admin-status.amber,
+.admin-status.red {
+  background: rgba(219, 234, 254, 0.88);
+  color: #2563eb;
+}
+
+.status-pill.completed,
+.status-pill.pending,
+.status-pill.cancelled {
+  background: rgba(219, 234, 254, 0.85);
+  color: #2563eb;
+}
+
+.admin-nav-item {
+  border: 1px solid rgba(120, 140, 255, 0.22);
+  background: linear-gradient(135deg, rgba(91, 78, 255, 0.18), rgba(0, 212, 170, 0.08));
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.admin-nav-item::after {
+  content: "→";
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.admin-nav-item.active,
+.admin-nav-item:hover {
+  background: linear-gradient(135deg, rgba(91, 78, 255, 0.34), rgba(88, 180, 255, 0.26));
+  border-color: rgba(160, 205, 255, 0.45);
+}
+
+.admin-logout {
+  border-color: rgba(120, 140, 255, 0.22);
+  background: linear-gradient(135deg, rgba(91, 78, 255, 0.14), rgba(0, 212, 170, 0.06));
+}
+
+.admin-nav-item {
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(219, 234, 254, 0.95));
+  border-color: rgba(147, 197, 253, 0.78);
+  color: #0f172a;
+}
+
+.admin-nav-item::after {
+  color: #2563eb;
+}
+
+.admin-nav-item.active,
+.admin-nav-item:hover {
+  background: linear-gradient(135deg, rgba(239, 246, 255, 1), rgba(219, 234, 254, 0.98));
+  border-color: rgba(96, 165, 250, 0.9);
+  color: #0f172a;
+  box-shadow: 0 14px 26px rgba(59, 130, 246, 0.18);
+}
+
+.admin-logout {
+  background: linear-gradient(135deg, rgba(254, 226, 226, 0.98), rgba(252, 165, 165, 0.92));
+  border-color: rgba(248, 113, 113, 0.5);
+  color: #991b1b;
+  box-shadow: 0 14px 26px rgba(239, 68, 68, 0.14);
+}
+
+.admin-logout:hover {
+  background: linear-gradient(135deg, rgba(254, 202, 202, 1), rgba(248, 113, 113, 0.96));
+  border-color: rgba(239, 68, 68, 0.65);
+  color: #7f1d1d;
+}
+
 #testimonials {
   background: white;
 }
