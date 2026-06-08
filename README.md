@@ -46,6 +46,14 @@ What now saves into MySQL:
 - search logs
 - provider/admin dashboard data
 
+When the backend starts it will create the app tables if they do not already exist:
+
+- `app_users`
+- `bookings`
+- `payments`
+- `search_logs`
+- `fraud_alerts`
+
 ## What is included
 
 - Responsive landing page converted from your HTML into React
