@@ -1,6 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { serviceCategoryPages, topProviders } from "../../data/serveiqData";
+import { buildBookingContext, formatCurrency, useLiveProviders } from "../../utils/providerCatalog";
 
 function singularize(name) {
   return name.endsWith("s") ? name.slice(0, -1) : name;
@@ -10,56 +11,69 @@ export default function CategoryPage({ onOpenModal }) {
   const { slug } = useParams();
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("rating");
+  const { providers, loading, error, source } = useLiveProviders(topProviders);
 
   const category = serviceCategoryPages.find((item) => item.slug === slug);
-  const openBooking = (provider = providers[0]) => {
-    const baseRate = provider ? parseInt(provider.price.replace(/[^0-9]/g, ""), 10) || 2500 : 2500;
-    const serviceFee = Math.round(baseRate * 2.5);
-    const callOutFee = 1250;
 
-    onOpenModal?.("booking", {
-      serviceRequired: category.name,
-      providerName: provider?.name || "",
-      serviceFee,
-      callOutFee,
-      totalAmount: serviceFee + callOutFee,
-      paymentMethod: "card",
-    });
-  };
-
-  const providers = useMemo(() => {
+  const categoryProviders = useMemo(() => {
     if (!category) {
       return [];
     }
 
-    const filtered = topProviders.filter(
-      (provider) =>
-        provider.category === category.name &&
-        `${provider.name} ${provider.title} ${provider.details}`.toLowerCase().includes(query.toLowerCase())
+    return providers.filter((provider) => provider.category.toLowerCase() === category.name.toLowerCase());
+  }, [category, providers]);
+
+  const filteredProviders = useMemo(() => {
+    const searched = categoryProviders.filter((provider) =>
+      provider.searchText.includes(query.toLowerCase()),
     );
 
-    const sorted = [...filtered].sort((a, b) => {
+    return [...searched].sort((a, b) => {
       if (sortBy === "rating") {
-        return parseFloat(b.rating) - parseFloat(a.rating);
+        return b.ratingValue - a.ratingValue;
       }
 
       if (sortBy === "price") {
-        return parseInt(a.price.replace(/[^0-9]/g, ""), 10) - parseInt(b.price.replace(/[^0-9]/g, ""), 10);
+        return a.priceValue - b.priceValue;
       }
 
       if (sortBy === "jobs") {
-        return parseInt(b.jobs.replace(/,/g, ""), 10) - parseInt(a.jobs.replace(/,/g, ""), 10);
+        return b.jobsValue - a.jobsValue;
       }
 
       return 0;
     });
-
-    return sorted;
-  }, [category, query, sortBy]);
+  }, [categoryProviders, query, sortBy]);
 
   if (!category) {
     return <Navigate to="/services" replace />;
   }
+
+  const featuredProvider = filteredProviders[0] ?? categoryProviders[0];
+  const averageRating = categoryProviders.length
+    ? (
+        categoryProviders.reduce((sum, provider) => sum + provider.ratingValue, 0) /
+        categoryProviders.length
+      ).toFixed(1)
+    : category.stats.rating.replace(/[^0-9.]/g, "");
+  const averagePrice = categoryProviders.length
+    ? formatCurrency(
+        Math.round(
+          categoryProviders.reduce((sum, provider) => sum + provider.priceValue, 0) /
+            categoryProviders.length,
+        ),
+      )
+    : category.stats.avgPrice;
+
+  const openBooking = (provider = featuredProvider) => {
+    if (!provider) {
+      return;
+    }
+
+    onOpenModal?.("booking", buildBookingContext(provider, { serviceRequired: category.name }));
+  };
+
+  const syncLabel = source === "live" ? "Synced from backend API" : "Showing fallback provider catalog";
 
   return (
     <main className="category-page" style={{ "--category-accent": category.accent }}>
@@ -75,7 +89,7 @@ export default function CategoryPage({ onOpenModal }) {
             <div className="category-hero-copy">
               <div className="category-hero-top">
                 <div className="category-icon-badge">{category.icon}</div>
-                <div className="category-live-pill">Live category page</div>
+                <div className="category-live-pill">{loading ? "Loading providers..." : syncLabel}</div>
               </div>
 
               <h1 className="category-title">{category.name}</h1>
@@ -83,11 +97,11 @@ export default function CategoryPage({ onOpenModal }) {
               <p className="category-description">{category.description}</p>
 
               <div className="category-hero-actions">
-                <button type="button" className="btn btn-primary btn-lg" onClick={() => openBooking(providers[0])}>
+                <button type="button" className="btn btn-primary btn-lg" onClick={() => openBooking(featuredProvider)} disabled={!featuredProvider}>
                   Book a {singularize(category.name)}
                 </button>
-                <Link to="/services" className="btn btn-ghost btn-lg">
-                  Back to Services
+                <Link to="/providers" className="btn btn-ghost btn-lg">
+                  Browse all providers
                 </Link>
               </div>
 
@@ -102,15 +116,15 @@ export default function CategoryPage({ onOpenModal }) {
               <div className="category-stats-title">Live Category Snapshot</div>
               <div className="category-stats-grid">
                 <div>
-                  <strong>{category.stats.providers}</strong>
+                  <strong>{categoryProviders.length || category.stats.providers}</strong>
                   <span>Providers</span>
                 </div>
                 <div>
-                  <strong>{category.stats.rating}</strong>
+                  <strong>{averageRating}*</strong>
                   <span>Average Rating</span>
                 </div>
                 <div>
-                  <strong>{category.stats.avgPrice}</strong>
+                  <strong>{averagePrice}</strong>
                   <span>Average Price</span>
                 </div>
                 <div>
@@ -121,11 +135,11 @@ export default function CategoryPage({ onOpenModal }) {
               <div className="category-stats-footer">
                 <div>
                   <span>Top Match</span>
-                  <strong>{providers[0]?.name || "—"}</strong>
+                  <strong>{featuredProvider?.name || "-"}</strong>
                 </div>
                 <div>
                   <span>Available Now</span>
-                  <strong>{providers.length}</strong>
+                  <strong>{filteredProviders.length}</strong>
                 </div>
               </div>
             </div>
@@ -155,7 +169,7 @@ export default function CategoryPage({ onOpenModal }) {
             </div>
             <div className="category-search-summary">
               <span>Showing</span>
-              <strong>{providers.length} providers</strong>
+              <strong>{filteredProviders.length} providers</strong>
             </div>
           </div>
         </div>
@@ -183,16 +197,22 @@ export default function CategoryPage({ onOpenModal }) {
               <h2 className="section-title">Best professionals for {category.name}</h2>
             </div>
             <p className="section-sub">
-              Curated provider list with modern cards, live stats, and instant booking actions.
+              Curated provider list with live stats, verified approval status, and instant booking.
             </p>
           </div>
 
+          {error && source === "fallback" ? (
+            <div className="category-live-pill" style={{ marginBottom: "1rem" }}>
+              {error}
+            </div>
+          ) : null}
+
           <div className="providers-grid category-providers-grid">
-            {providers.map((provider) => (
-              <article className="provider-card provider-card--large" key={provider.name}>
+            {filteredProviders.map((provider) => (
+              <article className="provider-card provider-card--large" key={provider.id || provider.name}>
                 <div className="provider-card-topline">
-                  <span className="provider-spotlight">Top rated</span>
-                  <span className="provider-response">Response: fast</span>
+                  <span className="provider-spotlight">Live provider</span>
+                  <span className="provider-response">Active now</span>
                 </div>
                 <div className="prov-header">
                   <div className="prov-avatar" style={{ background: provider.color }}>
@@ -201,7 +221,7 @@ export default function CategoryPage({ onOpenModal }) {
                   <div>
                     <div className="prov-name">{provider.name}</div>
                     <div className="prov-title">{provider.title}</div>
-                    <div className="verified-badge">✓ Verified</div>
+                    <div className="verified-badge">Verified</div>
                   </div>
                 </div>
                 <div className="provider-details">{provider.details}</div>
@@ -215,12 +235,14 @@ export default function CategoryPage({ onOpenModal }) {
                     <span>Jobs</span>
                   </div>
                   <div>
-                    <strong>{provider.complete}</strong>
+                    <strong>{provider.completionRate}</strong>
                     <span>Complete</span>
                   </div>
                 </div>
                 <div className="prov-footer">
-                  <div className="prov-price">{provider.price} <span>{provider.unit}</span></div>
+                  <div className="prov-price">
+                    {provider.price} <span>{provider.unit}</span>
+                  </div>
                   <button type="button" className="btn btn-primary btn-sm" onClick={() => openBooking(provider)}>
                     Book Now
                   </button>
@@ -229,8 +251,8 @@ export default function CategoryPage({ onOpenModal }) {
             ))}
           </div>
 
-          {providers.length === 0 ? (
-            <div className="empty-state">No featured providers found for this category yet.</div>
+          {filteredProviders.length === 0 ? (
+            <div className="empty-state">No approved providers found for this category yet.</div>
           ) : null}
         </div>
       </section>

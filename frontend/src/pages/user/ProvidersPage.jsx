@@ -2,73 +2,69 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { serviceCategoryPages, topProviders } from "../../data/serveiqData";
+import { buildBookingContext, getCategorySlug, useLiveProviders } from "../../utils/providerCatalog";
 
-const heroMetrics = [
-  { value: "6.4K+", label: "Verified providers" },
-  { value: "4.8★", label: "Average rating" },
-  { value: "< 12 min", label: "Avg response" },
-  { value: "AI ranked #1", label: "Featured now" },
-];
+const trustSignals = ["Background checked", "Verified reviews", "Live backend sync"];
 
-const trustSignals = [
-  "Background checked",
-  "Verified reviews",
-  "AI relevance scoring",
-];
+function buildHeroMetrics(providers) {
+  const activeProviders = providers.filter((provider) => provider.isActive !== false);
+  const ratingValues = activeProviders.map((provider) => provider.ratingValue).filter((value) => value > 0);
+  const averageRating = ratingValues.length
+    ? (ratingValues.reduce((sum, value) => sum + value, 0) / ratingValues.length).toFixed(1)
+    : "0.0";
 
-const categoryMap = new Map(
-  serviceCategoryPages.map((category) => [category.name, category.slug]),
-);
-
-const featuredProvider =
-  topProviders.find((provider) => provider.initials === "ST") ?? topProviders[0];
-
-const supportingSpotlights = topProviders
-  .filter((provider) => provider.initials !== featuredProvider.initials)
-  .slice(0, 3);
-
-function parseRating(rating) {
-  return Number.parseFloat(String(rating).replace(/[^0-9.]/g, "")) || 0;
-}
-
-function parseMoney(price) {
-  return Number.parseInt(String(price).replace(/[^0-9]/g, ""), 10) || 0;
-}
-
-function getCategorySlug(categoryName) {
-  return categoryMap.get(categoryName) ?? "services";
+  return [
+    { value: `${activeProviders.length.toLocaleString("en-US")}+`, label: "Approved providers" },
+    { value: `${averageRating}*`, label: "Average rating" },
+    { value: "< 12 min", label: "Avg response" },
+    { value: "Live sync", label: "Backend source" },
+  ];
 }
 
 export default function ProvidersPage({ onOpenModal }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Services");
   const [sortBy, setSortBy] = useState("rating");
+  const { providers, loading, error, source } = useLiveProviders(topProviders);
+
+  const activeProviders = useMemo(
+    () => providers.filter((provider) => provider.isActive !== false),
+    [providers],
+  );
 
   const filteredProviders = useMemo(() => {
     const base =
       selectedCategory === "All Services"
-        ? topProviders
-        : topProviders.filter((provider) => provider.category === selectedCategory);
+        ? activeProviders
+        : activeProviders.filter(
+            (provider) => provider.category.toLowerCase() === selectedCategory.toLowerCase(),
+          );
 
-    const searched = base.filter((provider) =>
-      `${provider.name} ${provider.title} ${provider.details} ${provider.category}`
-        .toLowerCase()
-        .includes(query.toLowerCase()),
-    );
+    const searched = base.filter((provider) => provider.searchText.includes(query.toLowerCase()));
 
     return [...searched].sort((a, b) => {
-      if (sortBy === "rating") return parseRating(b.rating) - parseRating(a.rating);
-      if (sortBy === "jobs") return parseMoney(b.jobs) - parseMoney(a.jobs);
-      if (sortBy === "price") return parseMoney(a.price) - parseMoney(b.price);
+      if (sortBy === "rating") return b.ratingValue - a.ratingValue;
+      if (sortBy === "jobs") return b.jobsValue - a.jobsValue;
+      if (sortBy === "price") return a.priceValue - b.priceValue;
       return 0;
     });
-  }, [query, selectedCategory, sortBy]);
+  }, [activeProviders, query, selectedCategory, sortBy]);
 
-  const hasFilters = query.trim() !== "" || selectedCategory !== "All Services" || sortBy !== "rating";
+  const featuredProvider = filteredProviders[0] ?? activeProviders[0] ?? providers[0];
+  const supportingSpotlights = useMemo(
+    () =>
+      (filteredProviders.length > 1 ? filteredProviders.slice(1, 4) : activeProviders.filter((provider) => provider.id !== featuredProvider?.id).slice(0, 3)),
+    [activeProviders, featuredProvider?.id, filteredProviders],
+  );
+
+  const heroMetrics = useMemo(() => buildHeroMetrics(providers), [providers]);
+
+  const hasFilters =
+    query.trim() !== "" || selectedCategory !== "All Services" || sortBy !== "rating";
 
   const activeHeadline =
     selectedCategory === "All Services"
-      ? "Top providers across the marketplace"
+      ? "Approved providers from the live marketplace"
       : `${selectedCategory} specialists`;
 
   const clearFilters = () => {
@@ -78,19 +74,14 @@ export default function ProvidersPage({ onOpenModal }) {
   };
 
   const openBooking = (provider = featuredProvider) => {
-    const baseRate = parseMoney(provider.price);
-    const serviceFee = Math.round(baseRate * 2.5);
-    const callOutFee = 1250;
+    if (!provider) {
+      return;
+    }
 
-    onOpenModal?.("booking", {
-      serviceRequired: provider.category,
-      providerName: provider.name,
-      serviceFee,
-      callOutFee,
-      totalAmount: serviceFee + callOutFee,
-      paymentMethod: "card",
-    });
+    onOpenModal?.("booking", buildBookingContext(provider, { serviceRequired: provider.category }));
   };
+
+  const syncLabel = source === "live" ? "Synced from backend API" : "Showing fallback provider catalog";
 
   return (
     <>
@@ -109,22 +100,26 @@ export default function ProvidersPage({ onOpenModal }) {
             <div className="providers-hero-grid">
               <div className="providers-hero-copy">
                 <div className="providers-hero-kicker">
-                  <span className="providers-hero-pill">Live AI ranking</span>
+                  <span className="providers-hero-pill">{loading ? "Loading providers..." : syncLabel}</span>
                   <span className="providers-hero-pill providers-hero-pill--muted">
-                    Updated in real time
+                    {activeProviders.length.toLocaleString("en-US")} active providers
                   </span>
                 </div>
 
-                <div className="section-label">⭐ Top Rated Providers</div>
+                <div className="section-label">Top Rated Providers</div>
                 <h1 className="providers-title">Trusted professionals across every service category</h1>
                 <p className="providers-description">
-                  Every provider is verified, background-checked, and ranked by our AI system in
-                  real-time. Discover the best professionals by rating, response time, experience,
-                  and value.
+                  Every approved provider comes from the live backend provider table. Search, sort,
+                  and book without leaving the marketplace.
                 </p>
 
                 <div className="providers-hero-actions">
-                  <button type="button" className="btn btn-primary btn-lg" onClick={() => openBooking(featuredProvider)}>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={() => openBooking(featuredProvider)}
+                    disabled={!featuredProvider}
+                  >
                     Book a Provider
                   </button>
                   <Link to="/services" className="btn btn-ghost btn-lg">
@@ -153,73 +148,83 @@ export default function ProvidersPage({ onOpenModal }) {
               <aside className="providers-spotlight-card">
                 <div className="providers-spotlight-top">
                   <span className="provider-spotlight">Featured now</span>
-                  <span className="provider-response">AI ranked #1</span>
+                  <span className="provider-response">{syncLabel}</span>
                 </div>
 
-                <div className="providers-spotlight-profile">
-                  <div
-                    className="providers-spotlight-avatar"
-                    style={{ background: featuredProvider.color }}
-                  >
-                    {featuredProvider.initials}
-                  </div>
-
-                  <div className="providers-spotlight-heading">
-                    <h3>{featuredProvider.name}</h3>
-                    <p>{featuredProvider.title}</p>
-                  </div>
-                </div>
-
-                <div className="providers-spotlight-meta">
-                  <span>{featuredProvider.rating}</span>
-                  <span>{featuredProvider.category}</span>
-                  <span>
-                    {featuredProvider.price}
-                    {featuredProvider.unit}
-                  </span>
-                </div>
-
-                <p className="providers-spotlight-copy">
-                  Private tutoring with a calm, high-trust learning style for students who need
-                  focused exam prep, homework guidance, and long-term academic support.
-                </p>
-
-                <div className="providers-spotlight-stats">
-                  <div>
-                    <strong>98%</strong>
-                    <span>match confidence</span>
-                  </div>
-                  <div>
-                    <strong>7 yrs</strong>
-                    <span>experience</span>
-                  </div>
-                  <div>
-                    <strong>&lt; 12 min</strong>
-                    <span>response time</span>
-                  </div>
-                </div>
-
-                <div className="providers-spotlight-stack">
-                  {supportingSpotlights.map((provider) => (
-                    <div className="providers-spotlight-row" key={provider.name}>
-                      <div className="providers-spotlight-row-avatar" style={{ background: provider.color }}>
-                        {provider.initials}
+                {featuredProvider ? (
+                  <>
+                    <div className="providers-spotlight-profile">
+                      <div
+                        className="providers-spotlight-avatar"
+                        style={{ background: featuredProvider.color }}
+                      >
+                        {featuredProvider.initials}
                       </div>
-                      <div className="providers-spotlight-row-copy">
-                        <strong>{provider.name}</strong>
-                        <span>{provider.title}</span>
-                      </div>
-                      <div className="providers-spotlight-row-meta">
-                        <span>{provider.rating}</span>
-                        <span>{provider.category}</span>
+
+                      <div className="providers-spotlight-heading">
+                        <h3>{featuredProvider.name}</h3>
+                        <p>{featuredProvider.title}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
 
-                <button type="button" className="btn btn-primary btn-lg providers-spotlight-btn" onClick={() => openBooking(featuredProvider)}>
-                  Book Featured Provider
-                </button>
+                    <div className="providers-spotlight-meta">
+                      <span>{featuredProvider.rating}</span>
+                      <span>{featuredProvider.category}</span>
+                      <span>
+                        {featuredProvider.price}
+                        {featuredProvider.unit}
+                      </span>
+                    </div>
+
+                    <p className="providers-spotlight-copy">{featuredProvider.details}</p>
+
+                    <div className="providers-spotlight-stats">
+                      <div>
+                        <strong>{featuredProvider.completionRate}</strong>
+                        <span>completion</span>
+                      </div>
+                      <div>
+                        <strong>{featuredProvider.jobs}</strong>
+                        <span>jobs</span>
+                      </div>
+                      <div>
+                        <strong>{featuredProvider.status === "active" ? "Active" : featuredProvider.status}</strong>
+                        <span>status</span>
+                      </div>
+                    </div>
+
+                    <div className="providers-spotlight-stack">
+                      {supportingSpotlights.map((provider) => (
+                        <div className="providers-spotlight-row" key={provider.id || provider.name}>
+                          <div className="providers-spotlight-row-avatar" style={{ background: provider.color }}>
+                            {provider.initials}
+                          </div>
+                          <div className="providers-spotlight-row-copy">
+                            <strong>{provider.name}</strong>
+                            <span>{provider.title}</span>
+                          </div>
+                          <div className="providers-spotlight-row-meta">
+                            <span>{provider.rating}</span>
+                            <span>{provider.category}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-lg providers-spotlight-btn"
+                      onClick={() => openBooking(featuredProvider)}
+                    >
+                      Book Featured Provider
+                    </button>
+                  </>
+                ) : (
+                  <div className="providers-empty-state">
+                    <h3>No approved providers yet</h3>
+                    <p>Once an admin approves provider accounts, they will appear here automatically.</p>
+                  </div>
+                )}
               </aside>
             </div>
           </div>
@@ -231,7 +236,7 @@ export default function ProvidersPage({ onOpenModal }) {
               <div className="providers-search-panel">
                 <label htmlFor="provider-search">Search providers</label>
                 <div className="providers-search-field">
-                  <span className="providers-search-icon">⌕</span>
+                  <span className="providers-search-icon">?</span>
                   <input
                     id="provider-search"
                     type="text"
@@ -291,75 +296,79 @@ export default function ProvidersPage({ onOpenModal }) {
                 <div className="section-label">Live ranking</div>
                 <h2 className="section-title">{activeHeadline}</h2>
               </div>
-              <div className="providers-count-pill">{filteredProviders.length} providers found</div>
+              <div className="providers-count-pill">
+                {filteredProviders.length} providers found
+              </div>
             </div>
 
+            {error && source === "fallback" ? (
+              <div className="providers-hero-pill providers-hero-pill--muted" style={{ marginBottom: "1rem" }}>
+                {error}
+              </div>
+            ) : null}
+
             <div className="providers-results-grid fade-up">
-              {filteredProviders.map((provider) => {
-                const categorySlug = getCategorySlug(provider.category);
+              {filteredProviders.map((provider) => (
+                <article className="provider-card provider-card--marketplace" key={provider.id || provider.name}>
+                  <div className="provider-card-topbar">
+                    <span className="provider-category-pill">{provider.category}</span>
+                    <span className="provider-availability-pill">Active now</span>
+                  </div>
 
-                return (
-                  <article className="provider-card provider-card--marketplace" key={provider.name}>
-                    <div className="provider-card-topbar">
-                      <span className="provider-category-pill">{provider.category}</span>
-                      <span className="provider-availability-pill">Verified</span>
+                  <div className="prov-header provider-card-header">
+                    <div className="prov-avatar" style={{ background: provider.color }}>
+                      {provider.initials}
+                    </div>
+                    <div className="provider-card-heading">
+                      <div className="prov-name">{provider.name}</div>
+                      <div className="prov-title">{provider.title}</div>
+                      <div className="verified-badge">Verified and background checked</div>
+                    </div>
+                  </div>
+
+                  <p className="provider-card-details">{provider.details}</p>
+
+                  <div className="provider-card-tags">
+                    <span>{provider.completionRate} completion</span>
+                    <span>{provider.jobs} jobs</span>
+                    <span>{provider.status === "active" ? "Live" : provider.status}</span>
+                  </div>
+
+                  <div className="provider-activity provider-activity--compact">
+                    <div>
+                      <strong>{provider.rating}</strong>
+                      <span>Rating</span>
+                    </div>
+                    <div>
+                      <strong>{provider.jobs}</strong>
+                      <span>Jobs</span>
+                    </div>
+                    <div>
+                      <strong>{provider.completionRate}</strong>
+                      <span>Complete</span>
+                    </div>
+                  </div>
+
+                  <div className="provider-card-footer">
+                    <div className="prov-price">
+                      {provider.price} <span>{provider.unit}</span>
                     </div>
 
-                    <div className="prov-header provider-card-header">
-                      <div className="prov-avatar" style={{ background: provider.color }}>
-                        {provider.initials}
-                      </div>
-                      <div className="provider-card-heading">
-                        <div className="prov-name">{provider.name}</div>
-                        <div className="prov-title">{provider.title}</div>
-                        <div className="verified-badge">✓ Verified and background checked</div>
-                      </div>
+                    <div className="provider-card-actions">
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                        onClick={() => openBooking(provider)}
+                      >
+                        Book Now
+                      </button>
+                      <Link to={`/category/${getCategorySlug(provider.category)}`} className="btn btn-ghost btn-sm">
+                        View category
+                      </Link>
                     </div>
-
-                    <p className="provider-card-details">{provider.details}</p>
-
-                    <div className="provider-card-tags">
-                      <span>Fast response</span>
-                      <span>High completion</span>
-                      <span>Best value</span>
-                    </div>
-
-                    <div className="provider-activity provider-activity--compact">
-                      <div>
-                        <strong>{provider.rating}</strong>
-                        <span>Rating</span>
-                      </div>
-                      <div>
-                        <strong>{provider.jobs}</strong>
-                        <span>Jobs</span>
-                      </div>
-                      <div>
-                        <strong>{provider.complete}</strong>
-                        <span>Complete</span>
-                      </div>
-                    </div>
-
-                    <div className="provider-card-footer">
-                      <div className="prov-price">
-                        {provider.price} <span>{provider.unit}</span>
-                      </div>
-
-                      <div className="provider-card-actions">
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-sm"
-                          onClick={() => openBooking(provider)}
-                        >
-                          Book Now
-                        </button>
-                        <Link to={`/category/${categorySlug}`} className="btn btn-ghost btn-sm">
-                          View category
-                        </Link>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
+                  </div>
+                </article>
+              ))}
             </div>
 
             {filteredProviders.length === 0 ? (

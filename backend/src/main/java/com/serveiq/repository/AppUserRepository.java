@@ -7,6 +7,8 @@ import com.serveiq.entity.AppUser;
 import com.serveiq.entity.AccountStatus;
 import com.serveiq.entity.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByEmailIgnoreCase(String email);
@@ -18,4 +20,13 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     List<AppUser> findByRoleOrderByCreatedAtDesc(UserRole role);
     List<AppUser> findByRoleAndStatusOrderByCreatedAtDesc(UserRole role, AccountStatus status);
     Optional<AppUser> findByIdAndRole(Long id, UserRole role);
+
+    @Query("""
+            select u
+            from AppUser u
+            where u.role = com.serveiq.entity.UserRole.PROVIDER
+              and u.status = com.serveiq.entity.AccountStatus.ACTIVE
+              and lower(concat(u.firstName, ' ', u.lastName)) = lower(:fullName)
+            """)
+    Optional<AppUser> findActiveProviderByFullName(@Param("fullName") String fullName);
 }

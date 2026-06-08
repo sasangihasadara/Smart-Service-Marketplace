@@ -175,7 +175,7 @@ function AppShell() {
           path="/booking"
           element={
             <UserLayout onOpenModal={openModal}>
-              <BookingPage />
+              <BookingPage onOpenModal={openModal} />
             </UserLayout>
           }
         />

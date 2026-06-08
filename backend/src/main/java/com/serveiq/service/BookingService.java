@@ -6,8 +6,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.serveiq.dto.BookingRequest;
+import com.serveiq.entity.AppUser;
 import com.serveiq.entity.Booking;
 import com.serveiq.entity.BookingStatus;
+import com.serveiq.repository.AppUserRepository;
 import com.serveiq.repository.BookingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +18,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final AppUserRepository appUserRepository;
 
-    public BookingService(BookingRepository bookingRepository) {
+    public BookingService(BookingRepository bookingRepository, AppUserRepository appUserRepository) {
         this.bookingRepository = bookingRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     @Transactional
     public Map<String, Object> createBooking(BookingRequest request) {
+        AppUser provider = resolveActiveProvider(request.providerName());
+
         Booking booking = new Booking();
         booking.setBookingCode(generateBookingCode());
         booking.setServiceRequired(request.serviceRequired().trim());
@@ -33,7 +39,7 @@ public class BookingService {
         booking.setCustomerName(request.customerName().trim());
         booking.setCustomerEmail(request.customerEmail().trim().toLowerCase(Locale.ROOT));
         booking.setCustomerPhone(request.customerPhone().trim());
-        booking.setProviderName(request.providerName() == null || request.providerName().isBlank() ? null : request.providerName().trim());
+        booking.setProviderName(provider == null ? null : provider.getFullName());
         booking.setServiceFee(normalizeAmount(request.serviceFee()));
         booking.setCallOutFee(normalizeAmount(request.callOutFee()));
         booking.setTotalAmount(normalizeAmount(request.totalAmount()));
@@ -43,6 +49,15 @@ public class BookingService {
         Booking saved = bookingRepository.save(booking);
 
         return toResponse(saved, "Booking saved successfully.");
+    }
+
+    private AppUser resolveActiveProvider(String providerName) {
+        if (providerName == null || providerName.isBlank()) {
+            return null;
+        }
+
+        return appUserRepository.findActiveProviderByFullName(providerName.trim())
+                .orElseThrow(() -> new IllegalArgumentException("Selected provider is unavailable. Please choose an active provider."));
     }
 
     private BigDecimal normalizeAmount(BigDecimal value) {
