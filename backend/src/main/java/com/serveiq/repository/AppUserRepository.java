@@ -14,4 +14,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     long countByRoleAndStatus(UserRole role, com.serveiq.entity.AccountStatus status);
     List<AppUser> findTop5ByOrderByCreatedAtDesc();
     List<AppUser> findTop5ByRoleOrderByCreatedAtDesc(UserRole role);
+    List<AppUser> findByRoleOrderByCreatedAtDesc(UserRole role);
 }

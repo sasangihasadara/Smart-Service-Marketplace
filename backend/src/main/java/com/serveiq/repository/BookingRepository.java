@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Optional<Booking> findByBookingCode(String bookingCode);
     List<Booking> findTop5ByOrderByCreatedAtDesc();
+    List<Booking> findByProviderNameIgnoreCase(String providerName);
     long countByStatus(BookingStatus status);
     long countByProviderNameIgnoreCase(String providerName);
 
