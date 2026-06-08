@@ -14,6 +14,7 @@ export default function AdminProvidersPage() {
         title="Provider Approval Queue"
         subtitle="Verify quality, ratings, and onboarding status for service providers."
         meta={source === "api" ? "Synced from backend API" : "Showing offline fallback data"}
+        dark
       />
 
       {error ? <div className="admin-banner warning">Backend unavailable. Using fallback data.</div> : null}

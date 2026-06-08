@@ -15,6 +15,7 @@ export default function AdminBookingsPage() {
         title="Booking Operations"
         subtitle="Track payment state, service status, and booking throughput."
         meta={source === "api" ? "Synced from backend API" : "Showing offline fallback data"}
+        dark
       />
 
       {error ? <div className="admin-banner warning">Backend unavailable. Using fallback data.</div> : null}

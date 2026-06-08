@@ -14,6 +14,7 @@ export default function AdminFraudPage() {
         title="Fraud Monitoring"
         subtitle="Watch anomaly scores, escalations, and review confidence in real time."
         meta={source === "api" ? "Synced from backend API" : "Showing offline fallback data"}
+        dark
       />
 
       {error ? <div className="admin-banner warning">Backend unavailable. Using fallback data.</div> : null}

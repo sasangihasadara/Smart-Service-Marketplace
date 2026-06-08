@@ -21,6 +21,10 @@ export default function AdminLayout() {
             <div className="admin-brand-sub">Admin Console</div>
           </div>
         </div>
+        <div className="admin-sidebar-note">
+          Live workspace connected to the admin API and MySQL records.
+          Review users, bookings, providers, and fraud activity from one place.
+        </div>
         <div className="admin-nav">
           {menuItems.map((item) => (
             <NavLink
