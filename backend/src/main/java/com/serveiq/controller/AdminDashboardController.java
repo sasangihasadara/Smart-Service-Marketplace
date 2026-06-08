@@ -2,9 +2,14 @@ package com.serveiq.controller;
 
 import java.util.Map;
 
+import com.serveiq.dto.ProviderReviewRequest;
 import com.serveiq.service.AdminDashboardService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +42,27 @@ public class AdminDashboardController {
     @GetMapping("/providers")
     public Map<String, Object> providers() {
         return adminDashboardService.providers();
+    }
+
+    @GetMapping("/providers/pending")
+    public Map<String, Object> pendingProviders() {
+        return adminDashboardService.pendingProviders();
+    }
+
+    @PostMapping("/providers/{providerId}/approve")
+    public Map<String, Object> approveProvider(
+            @PathVariable Long providerId,
+            @Valid @RequestBody(required = false) ProviderReviewRequest request
+    ) {
+        return adminDashboardService.approveProvider(providerId, request == null ? null : request.note());
+    }
+
+    @PostMapping("/providers/{providerId}/reject")
+    public Map<String, Object> rejectProvider(
+            @PathVariable Long providerId,
+            @Valid @RequestBody(required = false) ProviderReviewRequest request
+    ) {
+        return adminDashboardService.rejectProvider(providerId, request == null ? null : request.note());
     }
 
     @GetMapping("/fraud")

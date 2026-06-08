@@ -362,6 +362,12 @@ a {
   color: #92400e;
 }
 
+.admin-banner.success {
+  border-color: rgba(16, 185, 129, 0.24);
+  background: rgba(16, 185, 129, 0.08);
+  color: #065f46;
+}
+
 .admin-loading {
   display: inline-flex;
   width: fit-content;
@@ -3173,6 +3179,45 @@ section {
   align-items: center;
   color: var(--text2);
   font-size: 0.88rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-card-footer > div {
+  min-width: 0;
+}
+
+.admin-card-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.admin-card-note {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text3);
+}
+
+.admin-empty-state {
+  grid-column: 1 / -1;
+  background: rgba(91, 78, 255, 0.04);
+  border: 1px dashed rgba(91, 78, 255, 0.2);
+  border-radius: 22px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.admin-empty-state h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.35rem;
+}
+
+.admin-empty-state p {
+  color: var(--text2);
 }
 
 .admin-alert-list {
@@ -3892,6 +3937,15 @@ footer {
   .admin-card-top,
   .admin-alert {
     flex-direction: column;
+  }
+
+  .admin-card-actions {
+    width: 100%;
+  }
+
+  .admin-card-actions .btn {
+    width: 100%;
+    justify-content: center;
   }
 
   .admin-alert-side {

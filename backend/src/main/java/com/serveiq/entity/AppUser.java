@@ -51,6 +51,11 @@ public class AppUser {
     @Column(nullable = false)
     private AccountStatus status = AccountStatus.PENDING;
 
+    private OffsetDateTime reviewedAt;
+
+    @Column(length = 1000)
+    private String reviewNote;
+
     @Column(nullable = false)
     private String passwordHash;
 
@@ -161,6 +166,22 @@ public class AppUser {
 
     public void setStatus(AccountStatus status) {
         this.status = status;
+    }
+
+    public OffsetDateTime getReviewedAt() {
+        return reviewedAt;
+    }
+
+    public void setReviewedAt(OffsetDateTime reviewedAt) {
+        this.reviewedAt = reviewedAt;
+    }
+
+    public String getReviewNote() {
+        return reviewNote;
+    }
+
+    public void setReviewNote(String reviewNote) {
+        this.reviewNote = reviewNote;
     }
 
     public String getPasswordHash() {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchAdminResource } from "../api/adminApi";
 
-export function useAdminResource(path, fallbackData) {
+export function useAdminResource(path, fallbackData, refreshKey = 0) {
   const [state, setState] = useState({
     data: fallbackData,
     loading: true,
@@ -13,6 +13,12 @@ export function useAdminResource(path, fallbackData) {
     let active = true;
 
     async function loadResource() {
+      setState((current) => ({
+        ...current,
+        loading: true,
+        error: null,
+      }));
+
       try {
         const data = await fetchAdminResource(path);
 
@@ -45,7 +51,7 @@ export function useAdminResource(path, fallbackData) {
     return () => {
       active = false;
     };
-  }, [fallbackData, path]);
+  }, [fallbackData, path, refreshKey]);
 
   return state;
 }

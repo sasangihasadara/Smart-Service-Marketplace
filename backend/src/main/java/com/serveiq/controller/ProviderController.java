@@ -20,6 +20,6 @@ public class ProviderController {
 
     @GetMapping
     public List<Map<String, Object>> getProviders() {
-        return providerCatalogService.getProviders();
+        return providerCatalogService.getPublicProviders();
     }
 }

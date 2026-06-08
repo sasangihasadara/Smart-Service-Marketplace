@@ -23,6 +23,13 @@ export function fetchAdminResource(path) {
   return requestJson(`/admin${path}`);
 }
 
+export function postAdminResource(path, body) {
+  return requestJson(`/admin${path}`, {
+    method: "POST",
+    body: JSON.stringify(body ?? {}),
+  });
+}
+
 export function getJson(path) {
   return requestJson(path);
 }

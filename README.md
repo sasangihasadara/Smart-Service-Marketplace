@@ -45,6 +45,7 @@ What now saves into MySQL:
 - payments
 - search logs
 - provider/admin dashboard data
+- provider approval workflow with pending, approved, and rejected states
 
 When the backend starts it will create the app tables if they do not already exist:
 
@@ -53,6 +54,8 @@ When the backend starts it will create the app tables if they do not already exi
 - `payments`
 - `search_logs`
 - `fraud_alerts`
+
+Provider applications stay in `pending` status until an admin reviews them through the admin provider endpoints.
 
 ## What is included
 

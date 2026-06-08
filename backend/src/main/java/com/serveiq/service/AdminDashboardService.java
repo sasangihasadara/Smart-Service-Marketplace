@@ -102,10 +102,31 @@ public class AdminDashboardService {
         response.put("summary", List.of(
                 metric("Active Providers", String.valueOf(summary.get("activeProviders")), "up", "Synced from provider table"),
                 metric("Top Rated", String.valueOf(summary.get("topRated")), "up", "Ratings above 4.8"),
-                metric("Onboarding Queue", String.valueOf(appUserRepository.countByRoleAndStatus(UserRole.PROVIDER, AccountStatus.PENDING)), "down", "Pending providers")
+                metric("Onboarding Queue", String.valueOf(summary.get("pendingProviders")), "down", "Pending providers")
         ));
-        response.put("providers", providerCatalogService.getProviders());
+        response.put("providers", providerCatalogService.getAdminProviders());
         return response;
+    }
+
+    public Map<String, Object> pendingProviders() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("generatedAt", OffsetDateTime.now().toString());
+        Map<String, Object> summary = providerCatalogService.getProviderSummary();
+        response.put("summary", List.of(
+                metric("Pending Requests", String.valueOf(summary.get("pendingProviders")), "down", "Awaiting admin review"),
+                metric("Active Providers", String.valueOf(summary.get("activeProviders")), "up", "Already approved"),
+                metric("Top Rated", String.valueOf(summary.get("topRated")), "up", "Ratings above 4.8")
+        ));
+        response.put("providers", providerCatalogService.getPendingProviders());
+        return response;
+    }
+
+    public Map<String, Object> approveProvider(Long providerId, String note) {
+        return reviewProvider(providerId, note, AccountStatus.ACTIVE, "approved");
+    }
+
+    public Map<String, Object> rejectProvider(Long providerId, String note) {
+        return reviewProvider(providerId, note, AccountStatus.REJECTED, "rejected");
     }
 
     public Map<String, Object> fraud() {
@@ -212,5 +233,32 @@ public class AdminDashboardService {
             return "No bookings yet";
         }
         return "Latest records synced from bookings table";
+    }
+
+    private Map<String, Object> reviewProvider(Long providerId, String note, AccountStatus targetStatus, String actionLabel) {
+        AppUser provider = providerCatalogService.getProviderOrThrow(providerId);
+        if (provider.getStatus() != AccountStatus.PENDING) {
+            throw new IllegalArgumentException("Only pending provider requests can be reviewed.");
+        }
+
+        provider.setStatus(targetStatus);
+        provider.setReviewedAt(OffsetDateTime.now());
+        provider.setReviewNote(normalizeReviewNote(note, actionLabel));
+
+        AppUser saved = appUserRepository.save(provider);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Provider " + actionLabel + " successfully.");
+        response.put("provider", providerCatalogService.toProviderMap(saved));
+        response.put("summary", providerCatalogService.getProviderSummary());
+        return response;
+    }
+
+    private String normalizeReviewNote(String note, String actionLabel) {
+        if (note == null || note.isBlank()) {
+            return "Provider " + actionLabel + " after manual review.";
+        }
+
+        return note.trim();
     }
 }

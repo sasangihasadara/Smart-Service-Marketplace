@@ -7,6 +7,7 @@ const toneMap = {
   under: "amber",
   cancelled: "red",
   suspended: "red",
+  rejected: "red",
   high: "red",
   medium: "amber",
   low: "green",
