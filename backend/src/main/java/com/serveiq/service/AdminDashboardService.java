@@ -34,6 +34,7 @@ public class AdminDashboardService {
     private final FraudAlertRepository fraudAlertRepository;
     private final SearchLogRepository searchLogRepository;
     private final ProviderCatalogService providerCatalogService;
+    private final ProviderNotificationService providerNotificationService;
 
     public AdminDashboardService(
             AppUserRepository appUserRepository,
@@ -41,7 +42,8 @@ public class AdminDashboardService {
             PaymentRepository paymentRepository,
             FraudAlertRepository fraudAlertRepository,
             SearchLogRepository searchLogRepository,
-            ProviderCatalogService providerCatalogService
+            ProviderCatalogService providerCatalogService,
+            ProviderNotificationService providerNotificationService
     ) {
         this.appUserRepository = appUserRepository;
         this.bookingRepository = bookingRepository;
@@ -49,6 +51,7 @@ public class AdminDashboardService {
         this.fraudAlertRepository = fraudAlertRepository;
         this.searchLogRepository = searchLogRepository;
         this.providerCatalogService = providerCatalogService;
+        this.providerNotificationService = providerNotificationService;
     }
 
     public Map<String, Object> overview() {
@@ -246,6 +249,7 @@ public class AdminDashboardService {
         provider.setReviewNote(normalizeReviewNote(note, actionLabel));
 
         AppUser saved = appUserRepository.save(provider);
+        providerNotificationService.sendProviderReviewNotification(saved, actionLabel, note);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Provider " + actionLabel + " successfully.");

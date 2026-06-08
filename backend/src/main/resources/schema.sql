@@ -44,3 +44,17 @@ CREATE TABLE IF NOT EXISTS serveiq_admin_fraud_alerts (
   description_text VARCHAR(255) NOT NULL,
   score_text VARCHAR(20) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS provider_notifications (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  provider_id BIGINT NOT NULL,
+  provider_name VARCHAR(120) NOT NULL,
+  provider_email VARCHAR(255) NOT NULL,
+  provider_phone VARCHAR(50) NOT NULL,
+  channel VARCHAR(20) NOT NULL,
+  subject VARCHAR(150) NOT NULL,
+  message VARCHAR(2000) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  created_at DATETIME(6) NOT NULL,
+  delivered_at DATETIME(6)
+);

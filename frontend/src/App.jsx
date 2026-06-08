@@ -11,6 +11,7 @@ import TestimonialsPage from "./pages/user/TestimonialsPage";
 import RegisterPage from "./pages/user/RegisterPage";
 import CategoryPage from "./pages/user/CategoryPage";
 import ResearchPage from "./pages/user/ResearchPage";
+import ProviderDashboardPage from "./pages/provider/ProviderDashboardPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import AdminBookingsPage from "./pages/admin/AdminBookingsPage";
@@ -90,7 +91,7 @@ function AppShell() {
       return;
     }
 
-    navigate(result.role === "provider" ? "/providers" : "/services");
+    navigate(result.role === "provider" ? "/provider/dashboard" : "/services");
   };
 
   const handleRegister = async (form) => {
@@ -101,7 +102,7 @@ function AppShell() {
     closeModal();
     showToast(result.message || "Account created.");
 
-    navigate(result.role === "provider" ? "/providers" : "/services");
+    navigate(result.role === "provider" ? "/provider/dashboard" : "/services");
   };
 
   const handleBooking = async (form) => {
@@ -169,6 +170,17 @@ function AppShell() {
             <UserLayout onOpenModal={openModal}>
               <ProvidersPage onOpenModal={openModal} />
             </UserLayout>
+          }
+        />
+        <Route path="/provider" element={<Navigate to="/provider/dashboard" replace />} />
+        <Route
+          path="/provider/dashboard"
+          element={
+            <RouteGuard allowedRole="provider">
+              <UserLayout onOpenModal={openModal}>
+                <ProviderDashboardPage />
+              </UserLayout>
+            </RouteGuard>
           }
         />
         <Route
