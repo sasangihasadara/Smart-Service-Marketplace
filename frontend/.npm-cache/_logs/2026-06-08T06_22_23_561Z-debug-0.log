@@ -1,0 +1,25 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.16.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:F:\Project\frontend\.npmrc
+5 silly config load:file:C:\Users\BrillianZ\.npmrc
+6 silly config load:file:C:\Users\BrillianZ\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm run build
+8 verbose argv "run" "build"
+9 verbose logfile logs-max:10 dir:F:\Project\frontend\.npm-cache\_logs\2026-06-08T06_22_23_561Z-
+10 verbose logfile F:\Project\frontend\.npm-cache\_logs\2026-06-08T06_22_23_561Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile error removing log file F:\Project\frontend\.npm-cache\_logs\2026-06-07T14_33_57_804Z-debug-0.log [Error: EPERM: operation not permitted, unlink 'F:\Project\frontend\.npm-cache\_logs\2026-06-07T14_33_57_804Z-debug-0.log'] {
+12 silly logfile   errno: -4048,
+12 silly logfile   code: 'EPERM',
+12 silly logfile   syscall: 'unlink',
+12 silly logfile   path: 'F:\\Project\\frontend\\.npm-cache\\_logs\\2026-06-07T14_33_57_804Z-debug-0.log'
+12 silly logfile }
+13 silly logfile done cleaning log files
+14 verbose cwd F:\Project\frontend
+15 verbose os Windows_NT 10.0.26100
+16 verbose node v22.16.0
+17 verbose npm  v10.9.2
+18 verbose exit 1
+19 verbose code 1

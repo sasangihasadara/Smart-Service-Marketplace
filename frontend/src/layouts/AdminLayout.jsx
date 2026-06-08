@@ -1,17 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const menuItems = [
-  ["Overview", "📊"],
-  ["Users", "👥"],
-  ["Bookings", "📋"],
-  ["Payments", "💳"],
-  ["Fraud Monitor", "🛡️"],
-  ["Providers", "⭐"],
-  ["Reports", "📈"],
-  ["Settings", "⚙️"],
+  { label: "Overview", to: "/admin" },
+  { label: "Users", to: "/admin/users" },
+  { label: "Bookings", to: "/admin/bookings" },
+  { label: "Providers", to: "/admin/providers" },
+  { label: "Fraud Monitor", to: "/admin/fraud" },
 ];
 
-export default function AdminLayout({ onToast, children }) {
+export default function AdminLayout() {
   const navigate = useNavigate();
 
   return (
@@ -25,16 +22,15 @@ export default function AdminLayout({ onToast, children }) {
           </div>
         </div>
         <div className="admin-nav">
-          {menuItems.map(([label, icon], index) => (
-            <button
-              type="button"
-              key={label}
-              className={`admin-nav-item ${index === 0 ? "active" : ""}`}
-              onClick={() => index !== 0 && onToast(`Loading ${label.toLowerCase()}...`, "ℹ️")}
+          {menuItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === "/admin"}
+              className={({ isActive }) => `admin-nav-item ${isActive ? "active" : ""}`}
             >
-              <span>{icon}</span>
-              {label}
-            </button>
+              <span className="admin-nav-label">{item.label}</span>
+            </NavLink>
           ))}
         </div>
         <button
@@ -42,14 +38,16 @@ export default function AdminLayout({ onToast, children }) {
           className="btn btn-ghost admin-logout"
           onClick={() => {
             localStorage.removeItem("serveiq_role");
+            localStorage.removeItem("serveiq_email");
             navigate("/user");
           }}
         >
           Logout
         </button>
       </aside>
-      <main className="admin-main">{children}</main>
+      <main className="admin-main">
+        <Outlet />
+      </main>
     </div>
   );
 }
-

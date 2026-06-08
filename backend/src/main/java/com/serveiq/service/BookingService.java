@@ -61,6 +61,8 @@ public class BookingService {
         response.put("bookingCode", booking.getBookingCode());
         response.put("serviceRequired", booking.getServiceRequired());
         response.put("customerName", booking.getCustomerName());
+        response.put("customerEmail", booking.getCustomerEmail());
+        response.put("customerPhone", booking.getCustomerPhone());
         response.put("providerName", booking.getProviderName());
         response.put("totalAmount", booking.getTotalAmount());
         response.put("status", booking.getStatus().name().toLowerCase(Locale.ROOT));

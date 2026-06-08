@@ -77,7 +77,20 @@ export default function ProvidersPage({ onOpenModal }) {
     setSortBy("rating");
   };
 
-  const openBooking = () => onOpenModal?.("booking");
+  const openBooking = (provider = featuredProvider) => {
+    const baseRate = parseMoney(provider.price);
+    const serviceFee = Math.round(baseRate * 2.5);
+    const callOutFee = 1250;
+
+    onOpenModal?.("booking", {
+      serviceRequired: provider.category,
+      providerName: provider.name,
+      serviceFee,
+      callOutFee,
+      totalAmount: serviceFee + callOutFee,
+      paymentMethod: "card",
+    });
+  };
 
   return (
     <>
@@ -111,7 +124,7 @@ export default function ProvidersPage({ onOpenModal }) {
                 </p>
 
                 <div className="providers-hero-actions">
-                  <button type="button" className="btn btn-primary btn-lg" onClick={openBooking}>
+                  <button type="button" className="btn btn-primary btn-lg" onClick={() => openBooking(featuredProvider)}>
                     Book a Provider
                   </button>
                   <Link to="/services" className="btn btn-ghost btn-lg">
@@ -204,7 +217,7 @@ export default function ProvidersPage({ onOpenModal }) {
                   ))}
                 </div>
 
-                <button type="button" className="btn btn-primary btn-lg providers-spotlight-btn" onClick={openBooking}>
+                <button type="button" className="btn btn-primary btn-lg providers-spotlight-btn" onClick={() => openBooking(featuredProvider)}>
                   Book Featured Provider
                 </button>
               </aside>
@@ -335,7 +348,7 @@ export default function ProvidersPage({ onOpenModal }) {
                         <button
                           type="button"
                           className="btn btn-primary btn-sm"
-                          onClick={openBooking}
+                          onClick={() => openBooking(provider)}
                         >
                           Book Now
                         </button>

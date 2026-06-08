@@ -33,6 +33,19 @@ The backend is configured to use MySQL on `localhost:3306` with:
 - username: `root`
 - password: `1234`
 
+Seeded demo login:
+
+- admin email: `admin@serveiq.com`
+- admin password: `1234`
+
+What now saves into MySQL:
+
+- sign in and registration
+- bookings
+- payments
+- search logs
+- provider/admin dashboard data
+
 ## What is included
 
 - Responsive landing page converted from your HTML into React

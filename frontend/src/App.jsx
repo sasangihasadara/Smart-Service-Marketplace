@@ -19,7 +19,7 @@ import AdminFraudPage from "./pages/admin/AdminFraudPage";
 import Modal from "./components/Modal";
 import Toast from "./components/Toast";
 import { modalDefaults } from "./data/serveiqData";
-import { getJson, postJson } from "./api/adminApi";
+import { postJson } from "./api/adminApi";
 
 function AppShell() {
   const navigate = useNavigate();

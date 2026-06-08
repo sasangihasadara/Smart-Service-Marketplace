@@ -12,6 +12,20 @@ export default function CategoryPage({ onOpenModal }) {
   const [sortBy, setSortBy] = useState("rating");
 
   const category = serviceCategoryPages.find((item) => item.slug === slug);
+  const openBooking = (provider = providers[0]) => {
+    const baseRate = provider ? parseInt(provider.price.replace(/[^0-9]/g, ""), 10) || 2500 : 2500;
+    const serviceFee = Math.round(baseRate * 2.5);
+    const callOutFee = 1250;
+
+    onOpenModal?.("booking", {
+      serviceRequired: category.name,
+      providerName: provider?.name || "",
+      serviceFee,
+      callOutFee,
+      totalAmount: serviceFee + callOutFee,
+      paymentMethod: "card",
+    });
+  };
 
   const providers = useMemo(() => {
     if (!category) {
@@ -69,7 +83,7 @@ export default function CategoryPage({ onOpenModal }) {
               <p className="category-description">{category.description}</p>
 
               <div className="category-hero-actions">
-                <button type="button" className="btn btn-primary btn-lg" onClick={() => onOpenModal("booking")}>
+                <button type="button" className="btn btn-primary btn-lg" onClick={() => openBooking(providers[0])}>
                   Book a {singularize(category.name)}
                 </button>
                 <Link to="/services" className="btn btn-ghost btn-lg">
@@ -207,7 +221,7 @@ export default function CategoryPage({ onOpenModal }) {
                 </div>
                 <div className="prov-footer">
                   <div className="prov-price">{provider.price} <span>{provider.unit}</span></div>
-                  <button type="button" className="btn btn-primary btn-sm" onClick={() => onOpenModal("booking")}>
+                  <button type="button" className="btn btn-primary btn-sm" onClick={() => openBooking(provider)}>
                     Book Now
                   </button>
                 </div>

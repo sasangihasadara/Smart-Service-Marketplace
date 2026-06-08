@@ -67,8 +67,8 @@ export default function Modal({
     if (modalType === "login") {
       setLoginForm((current) => ({
         ...current,
-        email: modalContext?.email || current.email,
-        password: modalContext?.password || current.password,
+        email: modalContext?.email || (modalTab === "admin" ? "admin@serveiq.com" : current.email),
+        password: modalContext?.password || (modalTab === "admin" ? "1234" : current.password),
       }));
     }
 
