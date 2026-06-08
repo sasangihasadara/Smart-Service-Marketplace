@@ -1,10 +1,29 @@
 import { topProviders } from "../../data/serveiqData";
 import SectionHeader from "../SectionHeader";
 
+function parseMoney(value) {
+  return Number.parseInt(String(value).replace(/[^0-9]/g, ""), 10) || 0;
+}
+
 export default function ProvidersSection({ onOpenModal, selectedCategory }) {
   const filteredProviders = selectedCategory
     ? topProviders.filter((provider) => provider.category === selectedCategory)
     : topProviders;
+
+  const openBooking = (provider) => {
+    const baseRate = parseMoney(provider.price);
+    const serviceFee = Math.round(baseRate * 2.5);
+    const callOutFee = 1250;
+
+    onOpenModal?.("booking", {
+      serviceRequired: provider.category,
+      providerName: provider.name,
+      serviceFee,
+      callOutFee,
+      totalAmount: serviceFee + callOutFee,
+      paymentMethod: "card",
+    });
+  };
 
   return (
     <section id="providers">
@@ -43,7 +62,7 @@ export default function ProvidersSection({ onOpenModal, selectedCategory }) {
               </div>
               <div className="prov-footer">
                 <div className="prov-price">{provider.price} <span>{provider.unit}</span></div>
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => onOpenModal("booking")}>Book Now</button>
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => openBooking(provider)}>Book Now</button>
               </div>
             </div>
           ))}
