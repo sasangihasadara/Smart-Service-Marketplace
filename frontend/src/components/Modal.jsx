@@ -23,6 +23,7 @@ export default function Modal({
   onClose,
   onOpenModal,
   onToast,
+  onGoToRegister,
   onSignIn,
   onRegister,
   onBook,

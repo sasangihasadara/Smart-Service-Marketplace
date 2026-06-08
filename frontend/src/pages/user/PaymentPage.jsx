@@ -1,12 +1,17 @@
 import PaymentSection from "../../components/sections/PaymentSection";
 import Footer from "../../components/Footer";
 
-export default function PaymentPage({ paymentMethod, setPaymentMethod, onToast }) {
+export default function PaymentPage({ booking, paymentMethod, setPaymentMethod, onToast, onPay }) {
   return (
     <>
-      <PaymentSection paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} onToast={onToast} />
+      <PaymentSection
+        booking={booking}
+        paymentMethod={paymentMethod}
+        setPaymentMethod={setPaymentMethod}
+        onToast={onToast}
+        onPay={onPay}
+      />
       <Footer />
     </>
   );
 }
-
