@@ -63,6 +63,10 @@ public class PaymentService {
         response.put("paymentReference", payment.getPaymentReference());
         response.put("bookingCode", booking.getBookingCode());
         response.put("amount", payment.getAmount());
+        response.put("method", payment.getMethod());
+        response.put("payerName", payment.getPayerName());
+        response.put("payerEmail", payment.getPayerEmail());
+        response.put("createdAt", payment.getCreatedAt());
         response.put("status", payment.getStatus().name().toLowerCase(Locale.ROOT));
         return response;
     }

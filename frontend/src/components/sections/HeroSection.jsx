@@ -18,7 +18,7 @@ export default function HeroSection() {
           </p>
           <div className="hero-actions">
             <a href="#categories" className="btn btn-primary btn-lg">Browse Services</a>
-            <Link to="/register" className="btn btn-ghost btn-lg">Become a Provider</Link>
+            <Link to="/register?mode=register&role=provider" className="btn btn-ghost btn-lg">Become a Provider</Link>
           </div>
           <div className="hero-stats">
             <div className="hero-stat"><strong>12,400+</strong><span>Service Providers</span></div>

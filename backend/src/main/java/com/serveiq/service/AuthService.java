@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.serveiq.dto.LoginRequest;
+import com.serveiq.dto.InternalAdminCreateRequest;
 import com.serveiq.dto.RegisterRequest;
 import com.serveiq.entity.AccountStatus;
 import com.serveiq.entity.AppUser;
@@ -32,12 +33,14 @@ public class AuthService {
             throw new IllegalArgumentException("Email already exists.");
         }
 
+        UserRole role = parseRegisterRole(request.role());
+
         AppUser user = new AppUser();
         user.setFirstName(request.firstName().trim());
         user.setLastName(request.lastName().trim());
         user.setEmail(request.email().trim().toLowerCase(Locale.ROOT));
         user.setPhoneNumber(request.phoneNumber().trim());
-        user.setRole(parseRole(request.role()));
+        user.setRole(role);
         user.setServiceCategory(request.serviceCategory() == null || request.serviceCategory().isBlank()
                 ? defaultCategoryFor(user.getRole())
                 : request.serviceCategory().trim());
@@ -53,6 +56,30 @@ public class AuthService {
 
         AppUser saved = appUserRepository.save(user);
         return toResponse(saved, "Account created successfully.");
+    }
+
+    @Transactional
+    public Map<String, Object> createInternalAdmin(InternalAdminCreateRequest request) {
+        if (appUserRepository.existsByEmailIgnoreCase(request.email())) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+
+        AppUser user = new AppUser();
+        user.setFirstName(request.firstName().trim());
+        user.setLastName(request.lastName().trim());
+        user.setEmail(request.email().trim().toLowerCase(Locale.ROOT));
+        user.setPhoneNumber(request.phoneNumber().trim());
+        user.setRole(UserRole.ADMIN);
+        user.setServiceCategory("Platform");
+        user.setYearsOfExperience(0);
+        user.setPriceText("LKR 0");
+        user.setRating(new BigDecimal("5.0"));
+        user.setJobsCompleted(0);
+        user.setPasswordHash(passwordEncoder.encode(request.password()));
+        user.setStatus(AccountStatus.ACTIVE);
+
+        AppUser saved = appUserRepository.save(user);
+        return toResponse(saved, "Admin account created successfully.");
     }
 
     @Transactional(readOnly = true)
@@ -99,6 +126,14 @@ public class AuthService {
             case "admin" -> UserRole.ADMIN;
             default -> UserRole.CUSTOMER;
         };
+    }
+
+    private UserRole parseRegisterRole(String value) {
+        UserRole role = parseRole(value);
+        if (role == UserRole.ADMIN) {
+            throw new IllegalArgumentException("Admin accounts cannot be created from the public registration form.");
+        }
+        return role;
     }
 
     private String defaultCategoryFor(UserRole role) {

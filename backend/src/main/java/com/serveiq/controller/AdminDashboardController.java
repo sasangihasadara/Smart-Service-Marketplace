@@ -2,8 +2,10 @@ package com.serveiq.controller;
 
 import java.util.Map;
 
+import com.serveiq.dto.InternalAdminCreateRequest;
 import com.serveiq.dto.ProviderReviewRequest;
 import com.serveiq.service.AdminDashboardService;
+import com.serveiq.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminDashboardController {
 
     private final AdminDashboardService adminDashboardService;
+    private final AuthService authService;
 
-    public AdminDashboardController(AdminDashboardService adminDashboardService) {
+    public AdminDashboardController(AdminDashboardService adminDashboardService, AuthService authService) {
         this.adminDashboardService = adminDashboardService;
+        this.authService = authService;
     }
 
     @GetMapping("/overview")
@@ -68,5 +72,10 @@ public class AdminDashboardController {
     @GetMapping("/fraud")
     public Map<String, Object> fraud() {
         return adminDashboardService.fraud();
+    }
+
+    @PostMapping("/internal/admins")
+    public Map<String, Object> createAdmin(@Valid @RequestBody InternalAdminCreateRequest request) {
+        return authService.createInternalAdmin(request);
     }
 }

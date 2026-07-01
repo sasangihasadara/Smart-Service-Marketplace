@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { registerFeatures } from "../../data/serveiqData";
-export default function RegisterSection({ onOpenModal }) {
+export default function RegisterSection() {
   return (
     <section id="register">
       <div className="container">
@@ -19,8 +20,8 @@ export default function RegisterSection({ onOpenModal }) {
           ))}
         </div>
         <div className="register-actions">
-          <button type="button" className="btn btn-white btn-lg" onClick={() => onOpenModal("register")}>Register as Provider</button>
-          <button type="button" className="btn btn-outline-white btn-lg" onClick={() => onOpenModal("login")}>Customer Sign Up</button>
+          <Link to="/register?mode=register&role=provider" className="btn btn-white btn-lg">Register as Provider</Link>
+          <Link to="/register?mode=register&role=customer" className="btn btn-outline-white btn-lg">Customer Sign Up</Link>
         </div>
       </div>
     </section>

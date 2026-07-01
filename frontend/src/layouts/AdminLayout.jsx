@@ -39,6 +39,7 @@ export default function AdminLayout() {
           onClick={() => {
             localStorage.removeItem("serveiq_role");
             localStorage.removeItem("serveiq_email");
+            localStorage.removeItem("serveiq_status");
             navigate("/user");
           }}
         >

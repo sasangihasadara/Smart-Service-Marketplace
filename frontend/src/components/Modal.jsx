@@ -67,8 +67,8 @@ export default function Modal({
     if (modalType === "login") {
       setLoginForm((current) => ({
         ...current,
-        email: modalContext?.email || (modalTab === "admin" ? "admin@serveiq.com" : current.email),
-        password: modalContext?.password || (modalTab === "admin" ? "1234" : current.password),
+        email: modalContext?.email || current.email,
+        password: modalContext?.password || current.password,
       }));
     }
 
@@ -105,7 +105,6 @@ export default function Modal({
     try {
       await onSignIn?.({
         ...loginForm,
-        role: modalTab,
       });
       onClose();
     } catch (error) {
@@ -157,16 +156,8 @@ export default function Modal({
           <>
             <h2 className="modal-title" id="modal-title">Welcome back</h2>
             <p className="modal-sub">Sign in to your ServeIQ account</p>
-            <div className="tabs">
-              {["Customer", "Provider", "Admin"].map((tab) => (
-                <div
-                  className={`tab ${modalTab.toLowerCase() === tab.toLowerCase() ? "active" : ""}`}
-                  key={tab}
-                  onClick={() => setModalTab(tab.toLowerCase())}
-                >
-                  {tab}
-                </div>
-              ))}
+            <div className="auth-banner success" style={{ marginBottom: "1.25rem" }}>
+              Sign in with your email and password. The system will auto-detect your role after authentication.
             </div>
             <div className="form-group">
               <label>Email Address</label>

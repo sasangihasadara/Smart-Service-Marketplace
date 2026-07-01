@@ -8,7 +8,7 @@ import ProvidersPage from "./pages/user/ProvidersPage";
 import BookingPage from "./pages/user/BookingPage";
 import PaymentPage from "./pages/user/PaymentPage";
 import TestimonialsPage from "./pages/user/TestimonialsPage";
-import RegisterPage from "./pages/user/RegisterPage";
+import AuthPage from "./pages/user/AuthPage";
 import CategoryPage from "./pages/user/CategoryPage";
 import ResearchPage from "./pages/user/ResearchPage";
 import ProviderDashboardPage from "./pages/provider/ProviderDashboardPage";
@@ -75,19 +75,26 @@ function AppShell() {
 
   const goToRegister = () => {
     closeModal();
-    navigate("/register");
+    navigate(`/register?mode=register&role=${modalTab === "provider" ? "provider" : "customer"}`);
   };
 
   const handleSignIn = async ({ email, password, role }) => {
     const result = await postJson("/auth/login", { email, password, role });
     localStorage.setItem("serveiq_role", result.role);
     localStorage.setItem("serveiq_email", result.email);
+    localStorage.setItem("serveiq_status", result.status || "active");
     setLatestUser(result);
     closeModal();
     showToast(result.message || `Signed in as ${result.role}.`);
 
     if (result.role === "admin") {
       navigate("/admin");
+      return;
+    }
+
+    if (result.role === "provider" && result.status !== "active") {
+      showToast("Your provider account is waiting for admin approval.");
+      navigate("/login?mode=login&role=provider&notice=pending");
       return;
     }
 
@@ -98,11 +105,22 @@ function AppShell() {
     const result = await postJson("/auth/register", form);
     localStorage.setItem("serveiq_role", result.role);
     localStorage.setItem("serveiq_email", result.email);
+    localStorage.setItem("serveiq_status", result.status || "active");
     setLatestUser(result);
     closeModal();
-    showToast(result.message || "Account created.");
+    showToast(result.role === "provider" ? "Account created. Await admin approval." : result.message || "Account created.");
 
-    navigate(result.role === "provider" ? "/provider/dashboard" : "/services");
+    if (result.role === "provider") {
+      navigate("/login?mode=login&role=provider&notice=pending");
+      return;
+    }
+
+    if (result.role === "admin") {
+      navigate("/admin");
+      return;
+    }
+
+    navigate("/services");
   };
 
   const handleBooking = async (form) => {
@@ -139,7 +157,16 @@ function AppShell() {
     });
 
     showToast(result.message || "Payment recorded.");
-    navigate("/services");
+    setLatestBooking((current) =>
+      current
+        ? {
+            ...current,
+            paymentStatus: result.status,
+            paymentReference: result.paymentReference,
+            paymentMethod: result.method || current.paymentMethod || paymentMethod,
+          }
+        : current
+    );
     return result;
   };
 
@@ -148,6 +175,30 @@ function AppShell() {
       <Routes>
         <Route path="/" element={<Navigate to="/services" replace />} />
         <Route path="/user" element={<Navigate to="/services" replace />} />
+        <Route
+          path="/auth"
+          element={
+            <UserLayout onOpenModal={openModal}>
+              <AuthPage onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <UserLayout onOpenModal={openModal}>
+              <AuthPage initialMode="login" initialRole="customer" onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <UserLayout onOpenModal={openModal}>
+              <AuthPage initialMode="register" initialRole="provider" onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
+            </UserLayout>
+          }
+        />
         <Route
           path="/services"
           element={
@@ -210,14 +261,6 @@ function AppShell() {
           element={
             <UserLayout onOpenModal={openModal}>
               <TestimonialsPage />
-            </UserLayout>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <UserLayout onOpenModal={openModal}>
-              <RegisterPage onOpenModal={openModal} />
             </UserLayout>
           }
         />

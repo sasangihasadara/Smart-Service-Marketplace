@@ -75,11 +75,18 @@ public class BookingService {
         response.put("id", booking.getId());
         response.put("bookingCode", booking.getBookingCode());
         response.put("serviceRequired", booking.getServiceRequired());
+        response.put("bookingDate", booking.getBookingDate());
+        response.put("bookingTime", booking.getBookingTime());
+        response.put("location", booking.getLocation());
+        response.put("description", booking.getDescription());
         response.put("customerName", booking.getCustomerName());
         response.put("customerEmail", booking.getCustomerEmail());
         response.put("customerPhone", booking.getCustomerPhone());
         response.put("providerName", booking.getProviderName());
+        response.put("serviceFee", booking.getServiceFee());
+        response.put("callOutFee", booking.getCallOutFee());
         response.put("totalAmount", booking.getTotalAmount());
+        response.put("paymentMethod", booking.getPaymentMethod());
         response.put("status", booking.getStatus().name().toLowerCase(Locale.ROOT));
         return response;
     }

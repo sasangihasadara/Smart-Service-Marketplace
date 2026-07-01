@@ -39,7 +39,7 @@ export default function Footer() {
         <div>
           <div className="footer-col-title">Providers</div>
           <ul className="footer-links">
-            <li><Link to="/register">Register</Link></li>
+            <li><Link to="/register?mode=register&role=provider">Register</Link></li>
             <li><Link to="/providers">Provider Dashboard</Link></li>
             <li><Link to="/providers">Earnings</Link></li>
             <li><Link to="/providers">Verification</Link></li>

@@ -44,6 +44,8 @@ public class DataSeederService {
         return args -> {
             if (appUserRepository.count() == 0) {
                 seedUsers(appUserRepository, passwordEncoder);
+            } else {
+                ensureDemoAdmin(appUserRepository, passwordEncoder);
             }
 
             if (bookingRepository.count() == 0) {
@@ -62,6 +64,15 @@ public class DataSeederService {
                 seedSearchLogs(searchLogRepository);
             }
         };
+    }
+
+    private void ensureDemoAdmin(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
+        if (appUserRepository.existsByEmailIgnoreCase("admin@serveiq.com")) {
+            return;
+        }
+
+        appUserRepository.save(createUser("Serve", "Admin", "admin@serveiq.com", "0700000000", UserRole.ADMIN,
+                "Platform", 0, "LKR 0", new BigDecimal("5.0"), 0, AccountStatus.ACTIVE, passwordEncoder));
     }
 
     private void seedUsers(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
