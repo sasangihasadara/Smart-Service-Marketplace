@@ -7,7 +7,6 @@ import BookingSection from "../../components/sections/BookingSection";
 import PaymentSection from "../../components/sections/PaymentSection";
 import TestimonialsSection from "../../components/sections/TestimonialsSection";
 import RegisterSection from "../../components/sections/RegisterSection";
-import Footer from "../../components/Footer";
 
 export default function UserHomePage({ onOpenModal, onToast, paymentMethod, setPaymentMethod }) {
   return (
@@ -21,7 +20,6 @@ export default function UserHomePage({ onOpenModal, onToast, paymentMethod, setP
       <PaymentSection paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} onToast={onToast} />
       <TestimonialsSection />
       <RegisterSection onOpenModal={onOpenModal} />
-      <Footer />
     </>
   );
 }

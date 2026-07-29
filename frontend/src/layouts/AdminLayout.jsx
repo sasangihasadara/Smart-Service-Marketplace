@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import ThemeToggle from "../components/ThemeToggle";
 
 const menuItems = [
   { label: "Overview", to: "/admin" },
@@ -8,7 +9,7 @@ const menuItems = [
   { label: "Fraud Monitor", to: "/admin/fraud" },
 ];
 
-export default function AdminLayout() {
+export default function AdminLayout({ theme, onToggleTheme }) {
   const navigate = useNavigate();
 
   return (
@@ -33,6 +34,7 @@ export default function AdminLayout() {
             </NavLink>
           ))}
         </div>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         <button
           type="button"
           className="btn btn-ghost admin-logout"

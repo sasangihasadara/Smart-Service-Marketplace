@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../components/Footer";
 import BookingSection from "../../components/sections/BookingSection";
 import { topProviders } from "../../data/serveiqData";
 import { buildBookingContext, useLiveProviders } from "../../utils/providerCatalog";
@@ -318,7 +317,6 @@ export default function BookingPage({ onOpenModal }) {
       </section>
 
       <BookingSection />
-      <Footer />
     </main>
   );
 }

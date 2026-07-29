@@ -382,7 +382,7 @@ a {
 .admin-metric-card {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #ffffff, #f7f8ff);
+  background: linear-gradient(180deg, var(--white), #f7f8ff);
   border: 1px solid rgba(226, 226, 236, 0.9);
   border-radius: 22px;
   padding: 1.2rem;
@@ -615,7 +615,7 @@ nav {
 }
 
 .btn-white {
-  background: white;
+  background: var(--white);
   color: var(--accent);
 }
 
@@ -711,7 +711,7 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 100px;
   padding: 8px 16px;
@@ -784,7 +784,7 @@ section {
 }
 
 .hero-card {
-  background: white;
+  background: var(--white);
   border-radius: var(--radius);
   padding: 1.5rem;
   box-shadow: var(--card-shadow);
@@ -909,7 +909,7 @@ section {
 
 .float-badge {
   position: absolute;
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
@@ -934,7 +934,7 @@ section {
 }
 
 .search-section {
-  background: white;
+  background: var(--white);
   padding: 3rem 2rem;
   border-bottom: 1px solid var(--border);
 }
@@ -989,7 +989,7 @@ section {
 }
 
 #categories {
-  background: white;
+  background: var(--white);
   padding-top: 64px;
   padding-bottom: 64px;
 }
@@ -1133,7 +1133,7 @@ section {
 }
 
 #ai-matching {
-  background: white;
+  background: var(--white);
 }
 
 .ai-grid,
@@ -1321,7 +1321,7 @@ section {
   border: 1px dashed var(--border);
   border-radius: var(--radius-sm);
   color: var(--text2);
-  background: white;
+  background: var(--white);
 }
 
 .category-page {
@@ -1329,7 +1329,7 @@ section {
   background:
     radial-gradient(circle at top left, color-mix(in srgb, var(--category-accent) 16%, transparent), transparent 34%),
     radial-gradient(circle at top right, rgba(0, 212, 170, 0.08), transparent 30%),
-    linear-gradient(180deg, #ffffff 0%, #f7f7fa 100%);
+    linear-gradient(180deg, var(--white) 0%, #f7f7fa 100%);
 }
 
 .category-hero {
@@ -1359,7 +1359,7 @@ section {
 }
 
 .category-hero-copy {
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 28px;
   padding: 2.2rem;
@@ -1514,7 +1514,7 @@ section {
   grid-template-columns: 1.3fr 0.9fr 0.6fr;
   gap: 1rem;
   align-items: end;
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 24px;
   padding: 1.25rem;
@@ -1544,7 +1544,7 @@ section {
 .category-search-field input:focus,
 .category-search-field select:focus {
   border-color: var(--category-accent);
-  background: white;
+  background: var(--white);
 }
 
 .category-search-summary {
@@ -1582,7 +1582,7 @@ section {
 }
 
 .category-benefit-card {
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 1rem 1.1rem;
@@ -1615,14 +1615,14 @@ section {
 }
 
 .provider-card--large {
-  background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
+  background: linear-gradient(180deg, var(--white) 0%, #fbfbff 100%);
   border-radius: 24px;
   overflow: hidden;
   position: relative;
 }
 
 .provider-card--modern {
-  background: linear-gradient(180deg, #ffffff 0%, #fcfcfe 100%);
+  background: linear-gradient(180deg, var(--white) 0%, #fcfcfe 100%);
   border-radius: 26px;
   overflow: hidden;
   position: relative;
@@ -1701,7 +1701,7 @@ section {
   background:
     radial-gradient(circle at top left, rgba(91, 78, 255, 0.12), transparent 24%),
     radial-gradient(circle at top right, rgba(0, 212, 170, 0.14), transparent 26%),
-    linear-gradient(180deg, #ffffff 0%, #f6f7fb 100%);
+    linear-gradient(180deg, var(--white) 0%, #f6f7fb 100%);
 }
 
 .providers-hero {
@@ -1858,7 +1858,7 @@ section {
   align-items: center;
   border-radius: 999px;
   padding: 8px 12px;
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   color: var(--text2);
   font-size: 0.82rem;
@@ -2065,7 +2065,7 @@ section {
 
 .providers-search-panel,
 .providers-sort-panel {
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 26px;
   padding: 1rem;
@@ -2127,7 +2127,7 @@ section {
 
 .provider-chip {
   border: 1px solid var(--border);
-  background: white;
+  background: var(--white);
   color: var(--text2);
   border-radius: 999px;
   padding: 10px 14px;
@@ -2301,7 +2301,7 @@ section {
 
 .providers-empty-state {
   margin-top: 1.4rem;
-  background: white;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 28px;
   padding: 2rem;
@@ -2464,7 +2464,7 @@ section {
 }
 
 .provider-card {
-  background: white;
+  background: var(--white);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   padding: 1.5rem;
@@ -2569,7 +2569,7 @@ section {
 }
 
 #fraud {
-  background: white;
+  background: var(--white);
 }
 
 .fraud-alerts {
@@ -2735,7 +2735,7 @@ section {
   background:
     radial-gradient(circle at top left, rgba(91, 78, 255, 0.12), transparent 32%),
     radial-gradient(circle at top right, rgba(0, 212, 170, 0.1), transparent 28%),
-    linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+    linear-gradient(180deg, #f8faff 0%, var(--white) 100%);
 }
 
 .payment-section {
@@ -3255,7 +3255,7 @@ section {
   background:
     radial-gradient(circle at top left, rgba(91, 78, 255, 0.16), transparent 30%),
     radial-gradient(circle at top right, rgba(0, 212, 170, 0.12), transparent 24%),
-    linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%);
+    linear-gradient(180deg, #f5f7ff 0%, var(--white) 100%);
   padding-top: 120px;
 }
 
@@ -3487,7 +3487,7 @@ section {
 }
 
 .auth-switch-tab.active {
-  background: white;
+  background: var(--white);
   color: var(--accent);
   box-shadow: 0 10px 20px rgba(10, 10, 15, 0.07);
 }
@@ -3598,7 +3598,7 @@ section {
 }
 
 .dashboard-preview {
-  background: white;
+  background: var(--white);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: var(--card-shadow);
@@ -4184,7 +4184,7 @@ section {
 }
 
 #testimonials {
-  background: white;
+  background: var(--white);
 }
 
 .testimonials-grid {
@@ -4309,7 +4309,7 @@ section {
 }
 
 .tech-cat {
-  background: white;
+  background: var(--white);
   border-radius: var(--radius);
   padding: 1.5rem;
   border: 1px solid var(--border);
@@ -4443,7 +4443,7 @@ footer {
 
 .modal {
   position: relative;
-  background: white;
+  background: var(--white);
   border-radius: var(--radius);
   padding: 2.5rem;
   max-width: 480px;
@@ -4500,7 +4500,7 @@ footer {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--accent);
-  background: white;
+  background: var(--white);
 }
 
 .form-row {
@@ -4548,7 +4548,7 @@ footer {
 }
 
 .tab.active {
-  background: white;
+  background: var(--white);
   color: var(--accent);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
 }
@@ -5017,4 +5017,220 @@ h6,
 .payment-amount,
 .receipt-item strong {
   font-family: "Space Grotesk", sans-serif !important;
+}
+
+/* Theme switcher */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.theme-toggle--compact {
+  width: 40px;
+  padding: 8px;
+}
+
+.theme-toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Black theme */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --primary: #f7f7fb;
+  --surface: #14141b;
+  --surface2: #20202a;
+  --border: #30303d;
+  --text: #f1f1f6;
+  --text2: #c0c0cf;
+  --text3: #9292a5;
+  --white: #09090d;
+  --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] body {
+  background: #070709;
+}
+
+html[data-theme="dark"] nav {
+  background: rgba(9, 9, 13, 0.94);
+}
+
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .btn-ghost {
+  background: #171720;
+}
+
+html[data-theme="dark"] .btn-ghost:hover,
+html[data-theme="dark"] .theme-toggle:hover {
+  background: #23232f;
+}
+
+html[data-theme="dark"] .admin-shell {
+  background:
+    radial-gradient(circle at top left, rgba(91, 78, 255, 0.18), transparent 32%),
+    radial-gradient(circle at top right, rgba(0, 212, 170, 0.1), transparent 24%),
+    #070709;
+}
+
+html[data-theme="dark"] .admin-main::before {
+  background:
+    radial-gradient(circle at top left, rgba(91, 78, 255, 0.13), transparent 30%),
+    radial-gradient(circle at top right, rgba(0, 212, 170, 0.08), transparent 26%);
+}
+
+html[data-theme="dark"] .admin-dashboard-hero-copy,
+html[data-theme="dark"] .admin-hero-card,
+html[data-theme="dark"] .admin-panel,
+html[data-theme="dark"] .admin-banner,
+html[data-theme="dark"] .admin-loading,
+html[data-theme="dark"] .admin-metric-card,
+html[data-theme="dark"] .admin-card,
+html[data-theme="dark"] .admin-table-wrap,
+html[data-theme="dark"] .admin-activity-item,
+html[data-theme="dark"] .admin-mini-card,
+html[data-theme="dark"] .hero-card,
+html[data-theme="dark"] .search-bar,
+html[data-theme="dark"] .cat-card,
+html[data-theme="dark"] .step-card,
+html[data-theme="dark"] .mini-panel,
+html[data-theme="dark"] .ai-feature,
+html[data-theme="dark"] .payment-feature,
+html[data-theme="dark"] .provider-card,
+html[data-theme="dark"] .category-search-card,
+html[data-theme="dark"] .category-benefit-card,
+html[data-theme="dark"] .providers-search-panel,
+html[data-theme="dark"] .providers-sort-panel,
+html[data-theme="dark"] .provider-filter-pill,
+html[data-theme="dark"] .booking-step,
+html[data-theme="dark"] .payment-intro,
+html[data-theme="dark"] .payment-trust-card,
+html[data-theme="dark"] .payment-card,
+html[data-theme="dark"] .payment-order-card,
+html[data-theme="dark"] .payment-method-card,
+html[data-theme="dark"] .payment-expectation,
+html[data-theme="dark"] .auth-panel,
+html[data-theme="dark"] .kpi-card,
+html[data-theme="dark"] .recent-table,
+html[data-theme="dark"] .testimonial-card,
+html[data-theme="dark"] .register-feature,
+html[data-theme="dark"] .tech-cat,
+html[data-theme="dark"] .modal {
+  background: #121219;
+  border-color: var(--border);
+  box-shadow: var(--card-shadow);
+}
+
+html[data-theme="dark"] .category-page,
+html[data-theme="dark"] .providers-page,
+html[data-theme="dark"] .booking-flow,
+html[data-theme="dark"] .payment-section,
+html[data-theme="dark"] .auth-shell,
+html[data-theme="dark"] .dashboard-preview {
+  background: #09090d;
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group select:focus,
+html[data-theme="dark"] .form-group textarea:focus,
+html[data-theme="dark"] .category-search-field input:focus,
+html[data-theme="dark"] .category-search-field select:focus,
+html[data-theme="dark"] .providers-search-field input,
+html[data-theme="dark"] .providers-sort-panel select,
+html[data-theme="dark"] .payment-card .form-group input {
+  background: #1b1b25;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .tab.active,
+html[data-theme="dark"] .btn-white {
+  background: #242432;
+}
+
+html[data-theme="dark"] .toast {
+  background: #f1f1f6;
+  color: #101014;
+}
+
+html[data-theme="dark"] footer {
+  background:
+    radial-gradient(circle at top left, rgba(91, 78, 255, 0.2), transparent 34%),
+    radial-gradient(circle at top right, rgba(0, 140, 255, 0.14), transparent 30%),
+    linear-gradient(135deg, #081124 0%, #0b1832 52%, #0a1020 100%);
+  color: rgba(255, 255, 255, 0.68);
+}
+
+/* Keep every route on the same black canvas in dark mode. */
+html[data-theme="dark"] .app-shell,
+html[data-theme="dark"] .app-shell > main,
+html[data-theme="dark"] .app-shell > section,
+html[data-theme="dark"] #dashboard {
+  background-color: #070709;
+}
+
+html[data-theme="dark"] #hero,
+html[data-theme="dark"] .search-section,
+html[data-theme="dark"] .payment-section,
+html[data-theme="dark"] .auth-shell,
+html[data-theme="dark"] .category-page,
+html[data-theme="dark"] .providers-page {
+  background:
+    radial-gradient(circle at top left, rgba(91, 78, 255, 0.13), transparent 30%),
+    radial-gradient(circle at top right, rgba(0, 212, 170, 0.08), transparent 24%),
+    #070709;
+}
+
+html[data-theme="dark"] .search-section {
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .admin-metric-value,
+html[data-theme="dark"] .admin-card-top h3,
+html[data-theme="dark"] .admin-panel-head h3,
+html[data-theme="dark"] .admin-hero-card-head span:first-child,
+html[data-theme="dark"] .admin-hero-metrics strong,
+html[data-theme="dark"] .admin-mini-card strong,
+html[data-theme="dark"] .admin-table tbody td,
+html[data-theme="dark"] .admin-alert h3,
+html[data-theme="dark"] .admin-empty-state h3 {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .admin-panel-head p,
+html[data-theme="dark"] .admin-card-top p,
+html[data-theme="dark"] .admin-hero-note,
+html[data-theme="dark"] .admin-card-footer,
+html[data-theme="dark"] .admin-activity-item p,
+html[data-theme="dark"] .admin-mini-card span,
+html[data-theme="dark"] .admin-hero-metrics span,
+html[data-theme="dark"] .admin-card-stats span,
+html[data-theme="dark"] .admin-metric-label,
+html[data-theme="dark"] .admin-card-note,
+html[data-theme="dark"] .admin-table thead th {
+  color: var(--text2);
+}
+
+html[data-theme="dark"] .admin-table thead th,
+html[data-theme="dark"] .admin-table tbody tr:hover td,
+html[data-theme="dark"] .admin-empty-state {
+  background: #1a1a23;
+  border-color: var(--border);
 }

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
-export default function Navbar({ onOpenModal }) {
+export default function Navbar({ onOpenModal, theme, onToggleTheme }) {
   const navigate = useNavigate();
   const currentRole = localStorage.getItem("serveiq_role");
 
@@ -27,8 +28,9 @@ export default function Navbar({ onOpenModal }) {
             <li><Link to="/payment">Payment</Link></li>
             <li><Link to="/testimonials">Testimonials</Link></li>
             <li><Link to="/research">Research</Link></li>
-          </ul>
+        </ul>
         <div className="nav-cta">
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} compact />
           {isProvider ? (
             <>
               <Link to="/provider/dashboard" className="btn btn-ghost">

@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import Footer from "../../components/Footer";
 
 const registerRoles = [
   { key: "customer", label: "Customer", hint: "Book fast, pay securely, leave reviews." },
@@ -382,7 +381,6 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 }

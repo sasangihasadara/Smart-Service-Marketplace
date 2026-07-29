@@ -1,5 +1,4 @@
 import PaymentSection from "../../components/sections/PaymentSection";
-import Footer from "../../components/Footer";
 
 export default function PaymentPage({ booking, paymentMethod, setPaymentMethod, onToast, onPay }) {
   return (
@@ -11,7 +10,6 @@ export default function PaymentPage({ booking, paymentMethod, setPaymentMethod, 
         onToast={onToast}
         onPay={onPay}
       />
-      <Footer />
     </>
   );
 }

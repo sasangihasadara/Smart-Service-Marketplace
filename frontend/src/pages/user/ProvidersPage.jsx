@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../components/Footer";
 import { serviceCategoryPages, topProviders } from "../../data/serveiqData";
 import { buildBookingContext, getCategorySlug, useLiveProviders } from "../../utils/providerCatalog";
 
@@ -388,7 +387,6 @@ export default function ProvidersPage({ onOpenModal }) {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

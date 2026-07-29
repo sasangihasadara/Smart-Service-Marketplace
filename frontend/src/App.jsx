@@ -22,6 +22,8 @@ import Toast from "./components/Toast";
 import { modalDefaults } from "./data/serveiqData";
 import { postJson } from "./api/adminApi";
 
+const THEME_STORAGE_KEY = "serveiq_theme_v2";
+
 function AppShell() {
   const navigate = useNavigate();
   const [modalType, setModalType] = useState(null);
@@ -31,6 +33,16 @@ function AppShell() {
   const [latestBooking, setLatestBooking] = useState(null);
   const [latestUser, setLatestUser] = useState(null);
   const [toast, setToast] = useState(null);
+  const [theme, setTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || "dark");
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -178,7 +190,7 @@ function AppShell() {
         <Route
           path="/auth"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <AuthPage onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
             </UserLayout>
           }
@@ -186,7 +198,7 @@ function AppShell() {
         <Route
           path="/login"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <AuthPage initialMode="login" initialRole="customer" onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
             </UserLayout>
           }
@@ -194,7 +206,7 @@ function AppShell() {
         <Route
           path="/register"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <AuthPage initialMode="register" initialRole="provider" onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
             </UserLayout>
           }
@@ -202,7 +214,7 @@ function AppShell() {
         <Route
           path="/services"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <ServicesPage onToast={showToast} onSearch={handleSearch} />
             </UserLayout>
           }
@@ -210,7 +222,7 @@ function AppShell() {
         <Route
           path="/category/:slug"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <CategoryPage onOpenModal={openModal} />
             </UserLayout>
           }
@@ -218,7 +230,7 @@ function AppShell() {
         <Route
           path="/providers"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <ProvidersPage onOpenModal={openModal} />
             </UserLayout>
           }
@@ -228,7 +240,7 @@ function AppShell() {
           path="/provider/dashboard"
           element={
             <RouteGuard allowedRole="provider">
-              <UserLayout onOpenModal={openModal}>
+              <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
                 <ProviderDashboardPage />
               </UserLayout>
             </RouteGuard>
@@ -237,7 +249,7 @@ function AppShell() {
         <Route
           path="/booking"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <BookingPage onOpenModal={openModal} />
             </UserLayout>
           }
@@ -245,7 +257,7 @@ function AppShell() {
         <Route
           path="/payment"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <PaymentPage
                 booking={latestBooking}
                 paymentMethod={paymentMethod}
@@ -259,7 +271,7 @@ function AppShell() {
         <Route
           path="/testimonials"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <TestimonialsPage />
             </UserLayout>
           }
@@ -267,7 +279,7 @@ function AppShell() {
         <Route
           path="/research"
           element={
-            <UserLayout onOpenModal={openModal}>
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <ResearchPage />
             </UserLayout>
           }
@@ -276,7 +288,7 @@ function AppShell() {
           path="/admin"
           element={
             <RouteGuard allowedRole="admin">
-              <AdminLayout onToast={showToast} />
+              <AdminLayout onToast={showToast} theme={theme} onToggleTheme={toggleTheme} />
             </RouteGuard>
           }
         >
