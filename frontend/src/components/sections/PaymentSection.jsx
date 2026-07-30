@@ -87,7 +87,7 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
   }, [booking?.bookingCode]);
 
   const amount = useMemo(() => {
-    const bookingAmount = booking?.totalAmount ?? 7500;
+    const bookingAmount = booking?.totalAmount ?? 0;
     return toNumber(bookingAmount);
   }, [booking]);
 
@@ -171,7 +171,7 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
   };
 
   const isCardMethod = paymentMethod === "card";
-  const actionLabel = hasBooking ? `Pay LKR ${formatAmount(amount)}` : "Save a booking first";
+  const actionLabel = `Pay LKR ${formatAmount(amount)}`;
 
   return (
     <section id="payment" className="payment-section">
@@ -180,8 +180,9 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
           <div className="payment-intro fade-up">
             <SectionHeader
               label="Secure Checkout"
-              title="A checkout flow that feels like a real service marketplace"
-              subtitle="Review the booking details, choose how you want to pay, and confirm through a flow that mirrors a production gateway."
+              title="Complete your booking with confidence."
+              subtitle="Your booking, payment record, and receipt stay connected in one clear, secure checkout flow."
+              dark
             />
 
             <div className="payment-safety-strip">
@@ -276,6 +277,23 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
                   </button>
                 </div>
               </div>
+            ) : !hasBooking ? (
+              <div className="payment-empty-card">
+                <div className="payment-empty-icon" aria-hidden="true">01</div>
+                <div className="payment-small">Checkout waiting</div>
+                <h3>Start with a confirmed booking</h3>
+                <p>
+                  Select a verified provider, choose a date and time, then return here to review the exact price and pay securely.
+                </p>
+                <div className="payment-empty-list">
+                  <span>Verified provider selection</span>
+                  <span>Clear booking summary</span>
+                  <span>Instant payment receipt</span>
+                </div>
+                <button type="button" className="btn btn-primary payment-empty-action" onClick={() => navigate("/booking")}>
+                  Browse providers
+                </button>
+              </div>
             ) : (
               <div className="payment-card">
                 <div className="payment-header">
@@ -285,18 +303,18 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
                       {serviceName} - {providerName}
                     </div>
                   </div>
-                  <div className={`payhere-badge ${hasBooking ? "success" : ""}`}>{hasBooking ? "Ready" : "No booking"}</div>
+                  <div className="payhere-badge success">Ready</div>
                 </div>
 
                 <div className="payment-amount">LKR {formatAmount(amount)}</div>
                 <div className="payment-sub">
-                  {hasBooking ? "Booking total ready for confirmation" : "Create a booking first to unlock checkout"}
+                  Booking total ready for confirmation
                 </div>
 
                 <div className="payment-summary-grid">
                   <div className="payment-summary-item">
                     <span>Booking</span>
-                    <strong>{booking?.bookingCode || "Pending"}</strong>
+                    <strong>{booking.bookingCode}</strong>
                   </div>
                   <div className="payment-summary-item">
                     <span>Schedule</span>
@@ -308,7 +326,7 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
                   </div>
                   <div className="payment-summary-item">
                     <span>Status</span>
-                    <strong>{booking?.status || "pending"}</strong>
+                    <strong>{booking.status || "pending"}</strong>
                   </div>
                 </div>
 
@@ -434,7 +452,7 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
                   type="button"
                   className="pay-btn"
                   onClick={submitPayment}
-                  disabled={!hasBooking || isSubmitting}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? "Processing payment..." : actionLabel}
                 </button>
@@ -443,21 +461,35 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
               </div>
             )}
 
-            <div className="payment-order-card">
-              <div className="payment-order-head">
-                <h3>Order details</h3>
-                <span>{booking?.status || "Draft"}</span>
-              </div>
+            {hasBooking ? (
+              <div className="payment-order-card">
+                <div className="payment-order-head">
+                  <h3>Booking details</h3>
+                  <span>{booking.status || "Draft"}</span>
+                </div>
 
-              <div className="payment-order-list">
-                {orderDetails.map((item) => (
-                  <div className="payment-order-row" key={item.label}>
-                    <span>{item.label}</span>
-                    <strong>{item.value}</strong>
-                  </div>
-                ))}
+                <div className="payment-order-list">
+                  {orderDetails.map((item) => (
+                    <div className="payment-order-row" key={item.label}>
+                      <span>{item.label}</span>
+                      <strong>{item.value}</strong>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="payment-journey-card">
+                <div className="payment-order-head">
+                  <h3>Your checkout journey</h3>
+                  <span>3 steps</span>
+                </div>
+                <ol>
+                  <li><strong>Choose</strong><span>Find an approved professional.</span></li>
+                  <li><strong>Confirm</strong><span>Save the booking date and service details.</span></li>
+                  <li><strong>Pay</strong><span>Return here for a secure payment record.</span></li>
+                </ol>
+              </div>
+            )}
           </div>
         </div>
       </div>

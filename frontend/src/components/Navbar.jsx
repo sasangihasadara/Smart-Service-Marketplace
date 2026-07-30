@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar({ onOpenModal, theme, onToggleTheme }) {
@@ -13,6 +13,11 @@ export default function Navbar({ onOpenModal, theme, onToggleTheme }) {
   };
 
   const isProvider = currentRole === "provider";
+  const isSignedIn = Boolean(currentRole);
+  const providerLink = isProvider ? "/provider/dashboard" : "/providers";
+  const providerLabel = isProvider ? "Dashboard" : "Providers";
+
+  const navLinkClass = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
 
   return (
     <nav>
@@ -22,12 +27,12 @@ export default function Navbar({ onOpenModal, theme, onToggleTheme }) {
           ServeIQ
         </Link>
         <ul className="nav-links">
-          <li><Link to="/services">Services</Link></li>
-          <li><Link to={isProvider ? "/provider/dashboard" : "/providers"}>{isProvider ? "Dashboard" : "Providers"}</Link></li>
-          <li><Link to="/booking">Booking</Link></li>
-            <li><Link to="/payment">Payment</Link></li>
-            <li><Link to="/testimonials">Testimonials</Link></li>
-            <li><Link to="/research">Research</Link></li>
+          <li><NavLink to="/services" className={navLinkClass}>Services</NavLink></li>
+          <li><NavLink to={providerLink} className={navLinkClass}>{providerLabel}</NavLink></li>
+          <li><NavLink to="/booking" className={navLinkClass}>Booking</NavLink></li>
+          <li><NavLink to="/payment" className={navLinkClass}>Payment</NavLink></li>
+          <li><NavLink to="/testimonials" className={navLinkClass}>Testimonials</NavLink></li>
+          <li><NavLink to="/research" className={navLinkClass}>Research</NavLink></li>
         </ul>
         <div className="nav-cta">
           <ThemeToggle theme={theme} onToggle={onToggleTheme} compact />
@@ -35,6 +40,15 @@ export default function Navbar({ onOpenModal, theme, onToggleTheme }) {
             <>
               <Link to="/provider/dashboard" className="btn btn-ghost">
                 Provider Dashboard
+              </Link>
+              <button type="button" className="btn btn-primary" onClick={logout}>
+                Logout
+              </button>
+            </>
+          ) : isSignedIn ? (
+            <>
+              <Link to="/booking" className="btn btn-ghost">
+                Book a service
               </Link>
               <button type="button" className="btn btn-primary" onClick={logout}>
                 Logout

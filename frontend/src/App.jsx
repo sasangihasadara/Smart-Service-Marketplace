@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import RouteGuard from "./components/RouteGuard";
@@ -23,14 +23,26 @@ import { modalDefaults } from "./data/serveiqData";
 import { postJson } from "./api/adminApi";
 
 const THEME_STORAGE_KEY = "serveiq_theme_v2";
+const BOOKING_STORAGE_KEY = "serveiq_latest_booking";
+
+function getStoredBooking() {
+  try {
+    const storedBooking = window.sessionStorage.getItem(BOOKING_STORAGE_KEY);
+    return storedBooking ? JSON.parse(storedBooking) : null;
+  } catch {
+    window.sessionStorage.removeItem(BOOKING_STORAGE_KEY);
+    return null;
+  }
+}
 
 function AppShell() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [modalType, setModalType] = useState(null);
   const [modalTab, setModalTab] = useState("customer");
   const [modalContext, setModalContext] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("card");
-  const [latestBooking, setLatestBooking] = useState(null);
+  const [latestBooking, setLatestBooking] = useState(getStoredBooking);
   const [latestUser, setLatestUser] = useState(null);
   const [toast, setToast] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || "dark");
@@ -40,11 +52,27 @@ function AppShell() {
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
+  useEffect(() => {
+    if (latestBooking) {
+      window.sessionStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(latestBooking));
+      return;
+    }
+
+    window.sessionStorage.removeItem(BOOKING_STORAGE_KEY);
+  }, [latestBooking]);
+
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
   };
 
   useEffect(() => {
+    const animationTargets = document.querySelectorAll(".fade-up");
+
+    if (!("IntersectionObserver" in window)) {
+      animationTargets.forEach((element) => element.classList.add("visible"));
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -56,10 +84,10 @@ function AppShell() {
       { threshold: 0.1 }
     );
 
-    document.querySelectorAll(".fade-up").forEach((element) => observer.observe(element));
+    animationTargets.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!toast) {
