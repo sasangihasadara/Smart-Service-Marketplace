@@ -5124,7 +5124,7 @@ html[data-theme="dark"] .providers-search-panel,
 html[data-theme="dark"] .providers-sort-panel,
 html[data-theme="dark"] .provider-filter-pill,
 html[data-theme="dark"] .booking-step,
-html[data-theme="dark"] .payment-intro,
+html[data-theme="dark"] .payment-safety-chip,
 html[data-theme="dark"] .payment-trust-card,
 html[data-theme="dark"] .payment-card,
 html[data-theme="dark"] .payment-order-card,
@@ -5142,13 +5142,33 @@ html[data-theme="dark"] .modal {
   box-shadow: var(--card-shadow);
 }
 
+html[data-theme="dark"] .payment-safety-chip {
+  background: #1b1b25;
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .payment-safety-chip strong {
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .payment-safety-chip span {
+  color: #c0c0cf;
+}
+
 html[data-theme="dark"] .category-page,
 html[data-theme="dark"] .providers-page,
 html[data-theme="dark"] .booking-flow,
-html[data-theme="dark"] .payment-section,
 html[data-theme="dark"] .auth-shell,
 html[data-theme="dark"] .dashboard-preview {
   background: #09090d;
+}
+
+html[data-theme="dark"] #payment {
+  background:
+    radial-gradient(circle at top left, rgba(91, 78, 255, 0.18), transparent 32%),
+    radial-gradient(circle at top right, rgba(0, 212, 170, 0.12), transparent 28%),
+    linear-gradient(180deg, #09090d 0%, #121219 100%);
+  color: var(--text);
 }
 
 html[data-theme="dark"] .form-group input:focus,

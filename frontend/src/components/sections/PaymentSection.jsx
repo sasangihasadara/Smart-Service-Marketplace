@@ -182,7 +182,6 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
               label="Secure Checkout"
               title="Complete your booking with confidence."
               subtitle="Your booking, payment record, and receipt stay connected in one clear, secure checkout flow."
-              dark
             />
 
             <div className="payment-safety-strip">
