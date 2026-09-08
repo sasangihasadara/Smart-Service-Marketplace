@@ -50,7 +50,7 @@ export default function Navbar({ theme, onToggleTheme }) {
           <ul className="nav-links">
             <li><NavLink to="/services" className={navLinkClass} onClick={closeMenu}>Services</NavLink></li>
             <li><NavLink to={providerLink} className={navLinkClass} onClick={closeMenu}>{providerLabel}</NavLink></li>
-            <li><NavLink to="/booking" className={navLinkClass} onClick={closeMenu}>Bookings</NavLink></li>
+            <li><NavLink to="/booking" className={navLinkClass} onClick={closeMenu}>Book a service</NavLink></li>
             <li><NavLink to="/testimonials" className={navLinkClass} onClick={closeMenu}>Reviews</NavLink></li>
           </ul>
 

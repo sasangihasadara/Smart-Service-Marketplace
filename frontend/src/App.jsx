@@ -304,6 +304,7 @@ function AppShell() {
             </UserLayout>
           }
         />
+        <Route path="/bookings" element={<Navigate to="/booking" replace />} />
         <Route
           path="/payment"
           element={
