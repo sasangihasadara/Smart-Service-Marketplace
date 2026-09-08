@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
 
+const serviceLinks = [
+  ["Electricians", "/category/electricians"],
+  ["Plumbers", "/category/plumbers"],
+  ["AC technicians", "/category/ac-technicians"],
+  ["Home cleaning", "/category/cleaners"],
+];
+
 export default function Footer() {
   return (
     <footer>
@@ -9,57 +16,36 @@ export default function Footer() {
             <span className="logo-dot" />
             ServeIQ
           </Link>
-          <p>AI-Powered Service Marketplace connecting customers with trusted professionals across Sri Lanka.</p>
-          <div className="social-row">
-            <div className="social-icon">📘</div>
-            <div className="social-icon">🐦</div>
-            <div className="social-icon">📸</div>
-          </div>
+          <p>Find reliable local professionals and manage every service booking in one trusted place.</p>
+          <a className="footer-contact" href="mailto:support@serveiq.lk">support@serveiq.lk</a>
         </div>
         <div>
-          <div className="footer-col-title">Services</div>
+          <div className="footer-col-title">Popular services</div>
           <ul className="footer-links">
-            <li><Link to="/services">Electricians</Link></li>
-            <li><Link to="/services">Plumbers</Link></li>
-            <li><Link to="/services">AC Technicians</Link></li>
-            <li><Link to="/services">Tutors</Link></li>
-            <li><Link to="/services">Cleaners</Link></li>
+            {serviceLinks.map(([label, to]) => <li key={to}><Link to={to}>{label}</Link></li>)}
           </ul>
         </div>
         <div>
-          <div className="footer-col-title">Platform</div>
+          <div className="footer-col-title">For customers</div>
           <ul className="footer-links">
-            <li><Link to="/services">How It Works</Link></li>
-            <li><Link to="/research">AI Matching</Link></li>
-            <li><Link to="/research">Fraud Protection</Link></li>
-            <li><Link to="/payment">Payment Security</Link></li>
-            <li><Link to="/services">Mobile App</Link></li>
+            <li><Link to="/providers">Browse professionals</Link></li>
+            <li><Link to="/booking">Manage a booking</Link></li>
+            <li><Link to="/payment">Payments and invoices</Link></li>
+            <li><Link to="/testimonials">Verified reviews</Link></li>
           </ul>
         </div>
         <div>
-          <div className="footer-col-title">Providers</div>
+          <div className="footer-col-title">For providers</div>
           <ul className="footer-links">
-            <li><Link to="/register?mode=register&role=provider">Register</Link></li>
-            <li><Link to="/providers">Provider Dashboard</Link></li>
-            <li><Link to="/providers">Earnings</Link></li>
-            <li><Link to="/providers">Verification</Link></li>
-            <li><Link to="/services">Support</Link></li>
-          </ul>
-        </div>
-        <div>
-          <div className="footer-col-title">Company</div>
-          <ul className="footer-links">
-            <li><Link to="/services">About</Link></li>
-            <li><Link to="/research">Research</Link></li>
-            <li><Link to="/services">Privacy Policy</Link></li>
-            <li><Link to="/services">Terms of Service</Link></li>
-            <li><Link to="/services">Contact</Link></li>
+            <li><Link to="/register?mode=register&role=provider">Join ServeIQ</Link></li>
+            <li><Link to="/providers">Explore the marketplace</Link></li>
+            <li><Link to="/research">How matching works</Link></li>
           </ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2025 ServeIQ - AI-Powered Service Marketplace. Final Year Project.</span>
-        <span>Powered by React · Spring Boot · Scikit-learn · PayHere</span>
+        <span>© {new Date().getFullYear()} ServeIQ. All rights reserved.</span>
+        <span>Secure bookings · Verified professionals · Sri Lanka</span>
       </div>
     </footer>
   );

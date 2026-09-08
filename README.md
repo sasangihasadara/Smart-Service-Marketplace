@@ -20,6 +20,21 @@ npm install
 npm run dev
 ```
 
+### Google sign-in configuration
+
+Create a Google OAuth 2.0 **Web application** client in Google Cloud Console. Add
+`http://localhost:5173` as an authorized JavaScript origin, then configure the same
+client ID in both apps before starting them:
+
+```powershell
+$env:VITE_GOOGLE_CLIENT_ID = "your-client-id.apps.googleusercontent.com"
+$env:GOOGLE_CLIENT_ID = "your-client-id.apps.googleusercontent.com"
+```
+
+Google tokens are verified by the Spring Boot API; the browser never decides the
+account identity. A first-time Google user is created as an active customer. Provider
+accounts must still complete the provider registration and approval workflow.
+
 ## Backend
 
 ```bash

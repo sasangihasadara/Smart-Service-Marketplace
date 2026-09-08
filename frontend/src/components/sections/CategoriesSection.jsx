@@ -6,20 +6,23 @@ export default function CategoriesSection({ onToast }) {
   return (
     <section id="categories">
       <div className="container">
-        <SectionHeader label="📋 Service Categories" title="Every Service You Need" />
+        <SectionHeader
+          label="Browse by category"
+          title="Professional help for every task"
+          subtitle="Choose a service to compare available providers, ratings, and transparent hourly prices."
+        />
         <div className="category-grid">
           {serviceCategoryPages.map((category) => (
             <Link
               to={`/category/${category.slug}`}
               className="cat-card"
               key={category.slug}
-              onClick={() => {
-                onToast(`Opening ${category.name} page...`, category.icon);
-              }}
+              onClick={() => onToast(`Opening ${category.name} page...`, category.icon)}
             >
               <div className="cat-icon">{category.icon}</div>
               <div className="cat-name">{category.name}</div>
               <div className="cat-count">{category.stats.providers} providers</div>
+              <span className="cat-arrow" aria-hidden="true">→</span>
             </Link>
           ))}
         </div>

@@ -2,6 +2,7 @@ package com.serveiq.controller;
 
 import java.util.Map;
 
+import com.serveiq.dto.GoogleSignInRequest;
 import com.serveiq.dto.LoginRequest;
 import com.serveiq.dto.RegisterRequest;
 import com.serveiq.service.AuthService;
@@ -29,5 +30,10 @@ public class AuthController {
     @PostMapping("/login")
     public Map<String, Object> login(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
+    }
+
+    @PostMapping("/google")
+    public Map<String, Object> googleSignIn(@Valid @RequestBody GoogleSignInRequest request) {
+        return authService.googleSignIn(request);
     }
 }

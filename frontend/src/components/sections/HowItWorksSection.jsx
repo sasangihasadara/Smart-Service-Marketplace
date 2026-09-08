@@ -6,9 +6,9 @@ export default function HowItWorksSection() {
     <section id="how-it-works">
       <div className="container">
         <SectionHeader
-          label="🚀 How It Works"
-          title="Simple. Smart. Seamless."
-          subtitle="From searching to booking to payment - everything happens in one place, powered by AI."
+          label="How ServeIQ works"
+          title="Simple, secure, and built around you."
+          subtitle="From your first search to a completed job, every step is designed to be clear and dependable."
           centered
           dark
         />
@@ -26,4 +26,3 @@ export default function HowItWorksSection() {
     </section>
   );
 }
-

@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { serviceCategoryPages, topProviders } from "../../data/serveiqData";
 import { buildBookingContext, getCategorySlug, useLiveProviders } from "../../utils/providerCatalog";
 
-const trustSignals = ["Background checked", "Verified reviews", "Live backend sync"];
+const trustSignals = ["Background checked", "Verified reviews", "Secure booking flow"];
 
 function buildHeroMetrics(providers) {
   const activeProviders = providers.filter((provider) => provider.isActive !== false);
@@ -21,10 +21,16 @@ function buildHeroMetrics(providers) {
 }
 
 export default function ProvidersPage({ onOpenModal }) {
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get("q") || "");
   const [selectedCategory, setSelectedCategory] = useState("All Services");
   const [sortBy, setSortBy] = useState("rating");
   const { providers, loading, error, source } = useLiveProviders(topProviders);
+  const searchLocation = searchParams.get("location") || "";
+
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+  }, [searchParams]);
 
   const activeProviders = useMemo(
     () => providers.filter((provider) => provider.isActive !== false),
@@ -39,7 +45,14 @@ export default function ProvidersPage({ onOpenModal }) {
             (provider) => provider.category.toLowerCase() === selectedCategory.toLowerCase(),
           );
 
-    const searched = base.filter((provider) => provider.searchText.includes(query.toLowerCase()));
+    const normalizedQuery = query.trim().toLowerCase();
+    const queryTerms = normalizedQuery.split(/\s+/).filter((term) => term.length > 1);
+    const searched = base.filter(
+      (provider) =>
+        !normalizedQuery ||
+        provider.searchText.includes(normalizedQuery) ||
+        queryTerms.some((term) => provider.searchText.includes(term)),
+    );
 
     return [...searched].sort((a, b) => {
       if (sortBy === "rating") return b.ratingValue - a.ratingValue;
@@ -70,6 +83,7 @@ export default function ProvidersPage({ onOpenModal }) {
     setQuery("");
     setSelectedCategory("All Services");
     setSortBy("rating");
+    setSearchParams({});
   };
 
   const openBooking = (provider = featuredProvider) => {
@@ -294,6 +308,11 @@ export default function ProvidersPage({ onOpenModal }) {
               <div>
                 <div className="section-label">Live ranking</div>
                 <h2 className="section-title">{activeHeadline}</h2>
+                {query ? (
+                  <p className="providers-search-context">
+                    Showing matches for <strong>{query}</strong>{searchLocation ? ` near ${searchLocation}` : ""}.
+                  </p>
+                ) : null}
               </div>
               <div className="providers-count-pill">
                 {filteredProviders.length} providers found

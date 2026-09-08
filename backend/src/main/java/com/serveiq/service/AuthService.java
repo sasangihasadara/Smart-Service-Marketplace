@@ -1,10 +1,19 @@
 package com.serveiq.service;
 
 import java.math.BigDecimal;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import com.serveiq.dto.GoogleSignInRequest;
 import com.serveiq.dto.LoginRequest;
 import com.serveiq.dto.InternalAdminCreateRequest;
 import com.serveiq.dto.RegisterRequest;
@@ -12,6 +21,7 @@ import com.serveiq.entity.AccountStatus;
 import com.serveiq.entity.AppUser;
 import com.serveiq.entity.UserRole;
 import com.serveiq.repository.AppUserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +31,16 @@ public class AuthService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String googleClientId;
 
-    public AuthService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(
+            AppUserRepository appUserRepository,
+            PasswordEncoder passwordEncoder,
+            @Value("${app.auth.google.client-id:}") String googleClientId
+    ) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.googleClientId = googleClientId == null ? "" : googleClientId.trim();
     }
 
     @Transactional
@@ -99,6 +115,93 @@ public class AuthService {
         }
 
         return toResponse(user, "Login successful.");
+    }
+
+    @Transactional
+    public Map<String, Object> googleSignIn(GoogleSignInRequest request) {
+        if (googleClientId.isBlank()) {
+            throw new IllegalStateException("Google sign-in is not configured on the server.");
+        }
+
+        GoogleIdToken.Payload payload = verifyGoogleCredential(request.credential());
+        String email = payload.getEmail();
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Google did not provide an email address for this account.");
+        }
+
+        if (!isEmailVerified(payload)) {
+            throw new IllegalArgumentException("Please use a Google account with a verified email address.");
+        }
+
+        String normalizedEmail = email.trim().toLowerCase(Locale.ROOT);
+        AppUser existingUser = appUserRepository.findByEmailIgnoreCase(normalizedEmail).orElse(null);
+        if (existingUser != null) {
+            return toResponse(existingUser, "Signed in with Google.");
+        }
+
+        AppUser user = new AppUser();
+        user.setFirstName(firstNameFrom(payload));
+        user.setLastName(lastNameFrom(payload));
+        user.setEmail(normalizedEmail);
+        user.setPhoneNumber("Not provided");
+        user.setRole(UserRole.CUSTOMER);
+        user.setServiceCategory("Customer");
+        user.setYearsOfExperience(0);
+        user.setPasswordHash(passwordEncoder.encode(UUID.randomUUID().toString()));
+        user.setStatus(AccountStatus.ACTIVE);
+
+        AppUser saved = appUserRepository.save(user);
+        return toResponse(saved, "Your ServeIQ customer account was created with Google.");
+    }
+
+    private GoogleIdToken.Payload verifyGoogleCredential(String credential) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    new NetHttpTransport(),
+                    GsonFactory.getDefaultInstance()
+            )
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
+
+            GoogleIdToken token = verifier.verify(credential);
+            if (token == null) {
+                throw new IllegalArgumentException("Google could not verify this sign-in token.");
+            }
+
+            return token.getPayload();
+        } catch (GeneralSecurityException | IOException exception) {
+            throw new IllegalArgumentException("Google sign-in could not be verified. Please try again.");
+        }
+    }
+
+    private boolean isEmailVerified(GoogleIdToken.Payload payload) {
+        Object value = payload.get("email_verified");
+        return Boolean.TRUE.equals(value) || "true".equalsIgnoreCase(String.valueOf(value));
+    }
+
+    private String firstNameFrom(GoogleIdToken.Payload payload) {
+        String givenName = String.valueOf(payload.get("given_name") == null ? "" : payload.get("given_name")).trim();
+        if (!givenName.isBlank()) {
+            return givenName;
+        }
+
+        String[] nameParts = fullNameFrom(payload).split("\\s+", 2);
+        return nameParts.length > 0 && !nameParts[0].isBlank() ? nameParts[0] : "Google";
+    }
+
+    private String lastNameFrom(GoogleIdToken.Payload payload) {
+        String familyName = String.valueOf(payload.get("family_name") == null ? "" : payload.get("family_name")).trim();
+        if (!familyName.isBlank()) {
+            return familyName;
+        }
+
+        String[] nameParts = fullNameFrom(payload).split("\\s+", 2);
+        return nameParts.length > 1 && !nameParts[1].isBlank() ? nameParts[1] : "User";
+    }
+
+    private String fullNameFrom(GoogleIdToken.Payload payload) {
+        Object name = payload.get("name");
+        return name == null ? "" : String.valueOf(name).trim();
     }
 
     private Map<String, Object> toResponse(AppUser user, String message) {

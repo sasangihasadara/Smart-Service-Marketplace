@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import GoogleSignInButton from "../../components/GoogleSignInButton";
 
 const registerRoles = [
   { key: "customer", label: "Customer", hint: "Book fast, pay securely, leave reviews." },
@@ -36,7 +37,7 @@ function buildNote(mode, role, notice) {
   return "Choose the account type that matches how you will use ServeIQ.";
 }
 
-export default function AuthPage({ initialMode = "login", initialRole = "customer", onSignIn, onRegister, onToast }) {
+export default function AuthPage({ initialMode = "login", initialRole = "customer", onSignIn, onGoogleSignIn, onRegister, onToast }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const mode = searchParams.get("mode") || initialMode;
   const notice = searchParams.get("notice") || "";
@@ -122,6 +123,18 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
       });
     } catch (error) {
       onToast?.(error?.message || "Registration failed.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogleCredential = async (credential) => {
+    setSubmitting(true);
+
+    try {
+      await onGoogleSignIn?.(credential);
+    } catch (error) {
+      onToast?.(error?.message || "Google sign-in failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -257,6 +270,10 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
                   <button type="submit" className="btn btn-primary modal-action auth-submit" disabled={submitting}>
                     {submitting ? "Signing in..." : "Sign in"}
                   </button>
+
+                  <div className="auth-divider"><span>or</span></div>
+                  <GoogleSignInButton onCredential={handleGoogleCredential} disabled={submitting} />
+                  <p className="auth-google-note">New Google accounts are created as customer accounts. Providers can link Google after completing their service profile.</p>
                 </form>
               ) : (
                 <form className="auth-form" onSubmit={submitRegister}>

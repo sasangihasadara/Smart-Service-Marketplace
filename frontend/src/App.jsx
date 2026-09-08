@@ -141,6 +141,28 @@ function AppShell() {
     navigate(result.role === "provider" ? "/provider/dashboard" : "/services");
   };
 
+  const handleGoogleSignIn = async (credential) => {
+    const result = await postJson("/auth/google", { credential });
+    localStorage.setItem("serveiq_role", result.role);
+    localStorage.setItem("serveiq_email", result.email);
+    localStorage.setItem("serveiq_status", result.status || "active");
+    setLatestUser(result);
+    showToast(result.message || "Signed in with Google.");
+
+    if (result.role === "admin") {
+      navigate("/admin");
+      return;
+    }
+
+    if (result.role === "provider" && result.status !== "active") {
+      showToast("Your provider account is waiting for admin approval.");
+      navigate("/login?mode=login&role=provider&notice=pending");
+      return;
+    }
+
+    navigate(result.role === "provider" ? "/provider/dashboard" : "/services");
+  };
+
   const handleRegister = async (form) => {
     const result = await postJson("/auth/register", form);
     localStorage.setItem("serveiq_role", result.role);
@@ -219,7 +241,7 @@ function AppShell() {
           path="/auth"
           element={
             <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
-              <AuthPage onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
+              <AuthPage onToast={showToast} onSignIn={handleSignIn} onGoogleSignIn={handleGoogleSignIn} onRegister={handleRegister} />
             </UserLayout>
           }
         />
@@ -227,7 +249,7 @@ function AppShell() {
           path="/login"
           element={
             <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
-              <AuthPage initialMode="login" initialRole="customer" onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
+              <AuthPage initialMode="login" initialRole="customer" onToast={showToast} onSignIn={handleSignIn} onGoogleSignIn={handleGoogleSignIn} onRegister={handleRegister} />
             </UserLayout>
           }
         />
@@ -235,7 +257,7 @@ function AppShell() {
           path="/register"
           element={
             <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
-              <AuthPage initialMode="register" initialRole="provider" onToast={showToast} onSignIn={handleSignIn} onRegister={handleRegister} />
+              <AuthPage initialMode="register" initialRole="provider" onToast={showToast} onSignIn={handleSignIn} onGoogleSignIn={handleGoogleSignIn} onRegister={handleRegister} />
             </UserLayout>
           }
         />
