@@ -5209,6 +5209,58 @@ html[data-theme="dark"] #dashboard {
   background-color: #070709;
 }
 
+html[data-theme="dark"] .app-shell,
+html[data-theme="dark"] .app-shell main,
+html[data-theme="dark"] .app-shell section {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .section-title,
+html[data-theme="dark"] .section-label,
+html[data-theme="dark"] .section-sub,
+html[data-theme="dark"] .payment-intro .section-title,
+html[data-theme="dark"] .payment-intro .section-sub {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .payment-intro .section-label {
+  background: rgba(91, 78, 255, 0.16);
+  color: #a9a2ff;
+}
+
+html[data-theme="dark"] .payment-safety-chip,
+html[data-theme="dark"] .payment-trust-card,
+html[data-theme="dark"] .payment-expectation,
+html[data-theme="dark"] .providers-search-panel,
+html[data-theme="dark"] .providers-sort-panel,
+html[data-theme="dark"] .category-search-card,
+html[data-theme="dark"] .category-benefit-card {
+  background: #121219;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+html[data-theme="dark"] .payment-safety-chip span,
+html[data-theme="dark"] .payment-trust-card p,
+html[data-theme="dark"] .payment-expectation p,
+html[data-theme="dark"] .providers-search-panel label,
+html[data-theme="dark"] .providers-sort-panel label {
+  color: var(--text2);
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background: #1b1b25;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: var(--text3);
+}
+
 html[data-theme="dark"] #hero,
 html[data-theme="dark"] .search-section,
 html[data-theme="dark"] .payment-section,
