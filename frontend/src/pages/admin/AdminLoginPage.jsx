@@ -90,7 +90,7 @@ export default function AdminLoginPage({ onSignIn, onToast }) {
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
