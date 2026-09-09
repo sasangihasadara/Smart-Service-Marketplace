@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle";
 
 const menuItems = [
@@ -11,6 +11,8 @@ const menuItems = [
 
 export default function AdminLayout({ theme, onToggleTheme }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPage = menuItems.find((item) => item.to === location.pathname)?.label || "Admin workspace";
 
   return (
     <div className="admin-shell">
@@ -50,6 +52,13 @@ export default function AdminLayout({ theme, onToggleTheme }) {
         </button>
       </aside>
       <main className="admin-main">
+        <div className="admin-workspace-bar">
+          <div>
+            <span className="admin-workspace-kicker">ServeIQ / Admin</span>
+            <strong>{currentPage}</strong>
+          </div>
+          <span className="admin-workspace-status"><i /> Operations online</span>
+        </div>
         <Outlet />
       </main>
     </div>
