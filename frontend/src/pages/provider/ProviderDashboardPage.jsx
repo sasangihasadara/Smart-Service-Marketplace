@@ -73,6 +73,10 @@ export default function ProviderDashboardPage() {
     { label: "Experience", value: provider.yearsOfExperience ? `${provider.yearsOfExperience} years` : "Not added" },
   ], [email, provider.category, provider.email, provider.phoneNumber, provider.yearsOfExperience]);
 
+  const profileCompletion = [provider.name, provider.email || email, provider.phoneNumber, provider.category, provider.yearsOfExperience, provider.priceText]
+    .filter(Boolean).length;
+  const profileCompletionPercent = Math.round((profileCompletion / 6) * 100);
+
   if (role !== "provider") return <Navigate to="/services" replace />;
 
   if (state.loading) {
@@ -103,6 +107,12 @@ export default function ProviderDashboardPage() {
     { label: "Earnings", value: `LKR ${Number(stats.earnings || 0).toLocaleString("en-US")}`, detail: "Confirmed and completed jobs", icon: "◈" },
   ];
 
+  const focusCards = [
+    { label: "Profile completeness", value: `${profileCompletionPercent}%`, hint: profileCompletionPercent === 100 ? "Ready for more customers" : "Complete your public profile", tone: "accent" },
+    { label: "Today’s focus", value: bookings.length ? "Review requests" : "Build visibility", hint: bookings.length ? `${stats.pendingBookings ?? 0} requests waiting for action` : "Keep your listing complete", tone: "success" },
+    { label: "Lifetime earnings", value: `LKR ${Number(stats.earnings || 0).toLocaleString("en-US")}`, hint: "Confirmed and completed work", tone: "neutral" },
+  ];
+
   return (
     <main className="provider-workspace">
       <section className="provider-hero-panel">
@@ -127,6 +137,16 @@ export default function ProviderDashboardPage() {
           <p>{statusMessage(providerStatus, provider.reviewNote)}</p>
         </div>
         <span>Last reviewed: {formatDateTime(provider.reviewedAt)}</span>
+      </section>
+
+      <section className="provider-focus-grid" aria-label="Provider quick summary">
+        {focusCards.map((card) => (
+          <article className={`provider-focus-card ${card.tone}`} key={card.label}>
+            <span>{card.label}</span>
+            <strong>{card.value}</strong>
+            <small>{card.hint}</small>
+          </article>
+        ))}
       </section>
 
       <section className="provider-metric-grid" aria-label="Provider account overview">
@@ -156,6 +176,7 @@ export default function ProviderDashboardPage() {
                 <div className="provider-booking-row" key={booking.bookingCode}>
                   <div className="provider-booking-date"><strong>{booking.bookingDate || "TBD"}</strong><span>{booking.bookingTime || "Time to confirm"}</span></div>
                   <div className="provider-booking-copy"><strong>{booking.serviceRequired || "Service request"}</strong><span>{booking.customerName || "Customer"} · {booking.location || "Location to confirm"}</span></div>
+                  <span className="provider-booking-amount">{booking.amount || "LKR 0"}</span>
                   <span className={`provider-row-status ${String(booking.status || "pending").toLowerCase()}`}>{formatStatus(booking.status)}</span>
                 </div>
               ))}
