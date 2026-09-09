@@ -1,34 +1,20 @@
 export default function AdminSectionHeader({ label, title, subtitle, meta, dark = false }) {
-  const labelStyle = dark
-    ? { background: "rgba(255, 255, 255, 0.08)", color: "rgba(255, 255, 255, 0.82)" }
-    : undefined;
-
-  const titleStyle = dark ? { color: "white" } : undefined;
-  const subtitleStyle = dark ? { color: "rgba(255, 255, 255, 0.68)" } : undefined;
-  const metaStyle = dark
-    ? {
-        background: "rgba(91, 78, 255, 0.16)",
-        color: "white",
-        borderColor: "rgba(91, 78, 255, 0.22)",
-      }
-    : undefined;
-
   return (
-    <div className="admin-section-header">
+    <div className={`admin-section-header ${dark ? "admin-section-header--dark" : ""}`}>
       <div>
-        <div className="section-label" style={labelStyle}>
+        <div className="section-label">
           {label}
         </div>
-        <h2 className="section-title" style={titleStyle}>
+        <h2 className="section-title">
           {title}
         </h2>
         {subtitle ? (
-          <p className="section-sub" style={subtitleStyle}>
+          <p className="section-sub">
             {subtitle}
           </p>
         ) : null}
       </div>
-      {meta ? <div className="admin-section-meta" style={metaStyle}>{meta}</div> : null}
+      {meta ? <div className="admin-section-meta">{meta}</div> : null}
     </div>
   );
 }
