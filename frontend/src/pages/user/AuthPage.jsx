@@ -48,7 +48,7 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
   );
   const selectedRegisterRole = getRegisterRoleConfig(registerRole);
 
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [loginForm, setLoginForm] = useState({ email: "", password: "", rememberMe: true });
   const [registerForm, setRegisterForm] = useState({
     firstName: "",
     lastName: "",
@@ -58,6 +58,7 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
     yearsOfExperience: 1,
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const roleNote = buildNote(mode, registerRole, notice);
@@ -99,10 +100,30 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
 
   const submitLogin = async (event) => {
     event.preventDefault();
+
+    const email = loginForm.email.trim();
+    const password = loginForm.password.trim();
+
+    if (!email || !password) {
+      onToast?.("Please enter both email and password.");
+      return;
+    }
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail) {
+      onToast?.("Please enter a valid email address.");
+      return;
+    }
+
     setSubmitting(true);
 
     try {
-      await onSignIn?.(loginForm);
+      await onSignIn?.({ ...loginForm, email, password });
+      if (loginForm.rememberMe) {
+        localStorage.setItem("serveiq_remember_me", "true");
+      } else {
+        localStorage.removeItem("serveiq_remember_me");
+      }
     } catch (error) {
       onToast?.(error?.message || "Login failed.");
     } finally {
@@ -253,13 +274,41 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
 
                   <div className="form-group">
                     <label>Password</label>
-                    <input
-                      type="password"
-                      value={loginForm.password}
-                      onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                    />
+                    <div className="password-field">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={loginForm.password}
+                        onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
+                        placeholder="••••••••"
+                        autoComplete="current-password"
+                      />
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword((current) => !current)}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? "Hide" : "Show"}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="auth-meta-row">
+                    <label className="remember-me">
+                      <input
+                        type="checkbox"
+                        checked={loginForm.rememberMe}
+                        onChange={(event) => setLoginForm((current) => ({ ...current, rememberMe: event.target.checked }))}
+                      />
+                      <span>Remember me</span>
+                    </label>
+                    <button
+                      type="button"
+                      className="link-button auth-forgot-link"
+                      onClick={() => onToast?.("Password reset is available in a production auth setup.")}
+                    >
+                      Forgot password?
+                    </button>
                   </div>
 
                   <div className="auth-role-summary">
