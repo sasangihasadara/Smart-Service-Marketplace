@@ -17,6 +17,7 @@ import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import AdminBookingsPage from "./pages/admin/AdminBookingsPage";
 import AdminProvidersPage from "./pages/admin/AdminProvidersPage";
 import AdminFraudPage from "./pages/admin/AdminFraudPage";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
 import Modal from "./components/Modal";
 import Toast from "./components/Toast";
 import { modalDefaults } from "./data/serveiqData";
@@ -250,6 +251,14 @@ function AppShell() {
           element={
             <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
               <AuthPage initialMode="login" initialRole="customer" onToast={showToast} onSignIn={handleSignIn} onGoogleSignIn={handleGoogleSignIn} onRegister={handleRegister} />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/admin/login"
+          element={
+            <UserLayout onOpenModal={openModal} theme={theme} onToggleTheme={toggleTheme}>
+              <AdminLoginPage onToast={showToast} onSignIn={handleSignIn} />
             </UserLayout>
           }
         />
