@@ -29,20 +29,27 @@ export default function AdminLoginPage({ onSignIn, onToast }) {
   };
 
   return (
-    <section className="auth-shell">
+    <section className="auth-shell admin-login-shell">
       <div className="container">
-        <div className="auth-layout" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
-          <div className="auth-panel fade-up" style={{ maxWidth: 560, margin: "0 auto", width: "100%" }}>
+        <div className="auth-layout admin-login-layout">
+          <div className="admin-login-intro fade-up">
+            <span className="admin-login-eyebrow">ServeIQ control centre</span>
+            <h1>Keep the marketplace moving.</h1>
+            <p>Review providers, monitor bookings, and protect the quality of every service request from one private workspace.</p>
+            <div className="admin-login-checklist">
+              <span><b>01</b> Private administrator access</span>
+              <span><b>02</b> Provider approvals and reviews</span>
+              <span><b>03</b> Booking and fraud visibility</span>
+            </div>
+          </div>
+
+          <div className="auth-panel admin-login-panel fade-up">
             <div className="auth-panel-top">
               <div>
                 <div className="auth-panel-label">Private access</div>
                 <h2>Admin sign in</h2>
               </div>
               <div className="auth-status-pill">Admin</div>
-            </div>
-
-            <div className="auth-banner success">
-              Admin accounts are created privately in the system and are not part of the public registration flow.
             </div>
 
             <form className="auth-form" onSubmit={submitLogin}>
