@@ -3239,6 +3239,19 @@ section {
   color: rgba(255, 255, 255, 0.74);
 }
 
+.receipt-email-status {
+  margin-top: 0.7rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(91, 78, 255, 0.16);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.receipt-email-status.sent { background: rgba(16, 185, 129, 0.2); color: #a7f3d0; }
+.receipt-email-status.failed { background: rgba(244, 63, 94, 0.2); color: #fecdd3; }
+
 .receipt-actions {
   display: flex;
   gap: 0.75rem;
@@ -3947,7 +3960,7 @@ section {
 .admin-card-stats span {
   display: block;
   font-size: 0.72rem;
-  color: var(--text3);
+  color: #68738a;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 0.3rem;
@@ -3956,7 +3969,7 @@ section {
 .admin-card-stats strong {
   font-family: "Syne", sans-serif;
   font-size: 1rem;
-  color: var(--primary);
+  color: #151827;
 }
 
 .admin-card-footer {
@@ -5346,11 +5359,26 @@ html[data-theme="dark"] .admin-card-footer,
 html[data-theme="dark"] .admin-activity-item p,
 html[data-theme="dark"] .admin-mini-card span,
 html[data-theme="dark"] .admin-hero-metrics span,
-html[data-theme="dark"] .admin-card-stats span,
 html[data-theme="dark"] .admin-metric-label,
 html[data-theme="dark"] .admin-card-note,
 html[data-theme="dark"] .admin-table thead th {
   color: var(--text2);
+}
+
+html[data-theme="dark"] .admin-card-stats div {
+  background: #252b3a;
+  border-color: rgba(180, 198, 226, 0.32);
+}
+
+html[data-theme="dark"] .admin-card-stats span {
+  color: #d7e0ef;
+  font-weight: 800;
+}
+
+html[data-theme="dark"] .admin-card-stats strong {
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 800;
 }
 
 html[data-theme="dark"] .admin-table thead th,

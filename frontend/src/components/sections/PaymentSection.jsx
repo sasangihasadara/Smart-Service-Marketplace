@@ -267,6 +267,14 @@ export default function PaymentSection({ booking, paymentMethod, setPaymentMetho
                   Your booking is now confirmed. You can return to the services page or create another booking whenever you are ready.
                 </div>
 
+                <div className={`receipt-email-status ${receipt.emailStatus || "not_configured"}`}>
+                  {receipt.emailStatus === "sent"
+                    ? `A confirmation email was sent to ${receipt.payerEmail}.`
+                    : receipt.emailStatus === "failed"
+                      ? "Payment succeeded, but the confirmation email could not be sent. Keep this receipt reference."
+                      : "Payment succeeded. Email delivery is not configured for this environment."}
+                </div>
+
                 <div className="receipt-actions">
                   <button type="button" className="btn btn-primary modal-action" onClick={() => navigate("/services")}>
                     Back to services

@@ -12,6 +12,7 @@ import com.serveiq.entity.Payment;
 import com.serveiq.entity.PaymentStatus;
 import com.serveiq.repository.BookingRepository;
 import com.serveiq.repository.PaymentRepository;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,16 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
+    private final ObjectProvider<PaymentEmailService> paymentEmailService;
 
-    public PaymentService(PaymentRepository paymentRepository, BookingRepository bookingRepository) {
+    public PaymentService(
+            PaymentRepository paymentRepository,
+            BookingRepository bookingRepository,
+            ObjectProvider<PaymentEmailService> paymentEmailService
+    ) {
         this.paymentRepository = paymentRepository;
         this.bookingRepository = bookingRepository;
+        this.paymentEmailService = paymentEmailService;
     }
 
     @Transactional
@@ -45,7 +52,19 @@ public class PaymentService {
         bookingRepository.save(booking);
 
         Payment saved = paymentRepository.save(payment);
-        return toResponse(saved, booking, "Payment recorded successfully.");
+        return toResponse(saved, booking, "Payment recorded successfully.", sendReceiptEmail(saved));
+    }
+
+    private String sendReceiptEmail(Payment payment) {
+        PaymentEmailService emailService = paymentEmailService.getIfAvailable();
+        if (emailService == null) return "not_configured";
+
+        try {
+            emailService.sendReceipt(payment);
+            return "sent";
+        } catch (RuntimeException exception) {
+            return "failed";
+        }
     }
 
     private BigDecimal normalizeAmount(BigDecimal value) {
@@ -57,7 +76,7 @@ public class PaymentService {
         return String.format("PAY-%06d", suffix);
     }
 
-    private Map<String, Object> toResponse(Payment payment, Booking booking, String message) {
+    private Map<String, Object> toResponse(Payment payment, Booking booking, String message, String emailStatus) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", message);
         response.put("paymentReference", payment.getPaymentReference());
@@ -68,6 +87,7 @@ public class PaymentService {
         response.put("payerEmail", payment.getPayerEmail());
         response.put("createdAt", payment.getCreatedAt());
         response.put("status", payment.getStatus().name().toLowerCase(Locale.ROOT));
+        response.put("emailStatus", emailStatus);
         return response;
     }
 }

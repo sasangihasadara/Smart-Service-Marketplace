@@ -32,7 +32,7 @@ public class Booking {
     @Column(nullable = false)
     private LocalDate bookingDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TIME")
     private LocalTime bookingTime;
 
     @Column(nullable = false)

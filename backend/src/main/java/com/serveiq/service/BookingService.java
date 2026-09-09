@@ -1,6 +1,7 @@
 package com.serveiq.service;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookingService {
+
+    private static final DateTimeFormatter BOOKING_TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
     private final BookingRepository bookingRepository;
     private final AppUserRepository appUserRepository;
@@ -76,7 +79,7 @@ public class BookingService {
         response.put("bookingCode", booking.getBookingCode());
         response.put("serviceRequired", booking.getServiceRequired());
         response.put("bookingDate", booking.getBookingDate());
-        response.put("bookingTime", booking.getBookingTime());
+        response.put("bookingTime", booking.getBookingTime() == null ? null : booking.getBookingTime().format(BOOKING_TIME_FORMAT));
         response.put("location", booking.getLocation());
         response.put("description", booking.getDescription());
         response.put("customerName", booking.getCustomerName());

@@ -3,6 +3,7 @@ package com.serveiq.service;
 import java.math.BigDecimal;
 import java.time.Month;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,6 +28,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AdminDashboardService {
+
+    private static final DateTimeFormatter BOOKING_TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
     private final AppUserRepository appUserRepository;
     private final BookingRepository bookingRepository;
@@ -190,7 +193,7 @@ public class AdminDashboardService {
             item.put("amount", formatMoney(booking.getTotalAmount()));
             item.put("status", booking.getStatus().name().substring(0, 1) + booking.getStatus().name().substring(1).toLowerCase(Locale.ROOT));
             item.put("paymentMethod", booking.getPaymentMethod() == null ? "-" : booking.getPaymentMethod());
-            item.put("slot", booking.getBookingDate() + " " + booking.getBookingTime());
+            item.put("slot", booking.getBookingDate() + " " + (booking.getBookingTime() == null ? "" : booking.getBookingTime().format(BOOKING_TIME_FORMAT)));
             result.add(item);
         }
         return result;

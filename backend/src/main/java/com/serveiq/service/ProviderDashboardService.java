@@ -1,6 +1,7 @@
 package com.serveiq.service;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProviderDashboardService {
+
+    private static final DateTimeFormatter BOOKING_TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
     private final AppUserRepository appUserRepository;
     private final BookingRepository bookingRepository;
@@ -114,7 +117,7 @@ public class ProviderDashboardService {
             item.put("serviceRequired", booking.getServiceRequired());
             item.put("customerName", booking.getCustomerName());
             item.put("bookingDate", booking.getBookingDate() == null ? null : booking.getBookingDate().toString());
-            item.put("bookingTime", booking.getBookingTime() == null ? null : booking.getBookingTime().toString());
+            item.put("bookingTime", booking.getBookingTime() == null ? null : booking.getBookingTime().format(BOOKING_TIME_FORMAT));
             item.put("location", booking.getLocation());
             item.put("amount", booking.getTotalAmount() == null ? "LKR 0" : "LKR " + booking.getTotalAmount().stripTrailingZeros().toPlainString());
             item.put("status", booking.getStatus().name().toLowerCase(Locale.ROOT));
