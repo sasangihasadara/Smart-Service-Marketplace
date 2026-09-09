@@ -13,6 +13,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.serveiq.config.JwtService;
 import com.serveiq.dto.GoogleSignInRequest;
 import com.serveiq.dto.LoginRequest;
 import com.serveiq.dto.InternalAdminCreateRequest;
@@ -31,19 +32,21 @@ public class AuthService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private final String googleClientId;
 
     public AuthService(
             AppUserRepository appUserRepository,
             PasswordEncoder passwordEncoder,
+            JwtService jwtService,
             @Value("${app.auth.google.client-id:}") String googleClientId
     ) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
         this.googleClientId = googleClientId == null ? "" : googleClientId.trim();
     }
 
-    @Transactional
     public Map<String, Object> register(RegisterRequest request) {
         if (appUserRepository.existsByEmailIgnoreCase(request.email())) {
             throw new IllegalArgumentException("Email already exists.");
@@ -216,6 +219,7 @@ public class AuthService {
         response.put("status", user.getStatus().name().toLowerCase(Locale.ROOT));
         response.put("serviceCategory", user.getServiceCategory());
         response.put("priceText", user.getPriceText());
+        response.put("token", jwtService.generateToken(user));
         return response;
     }
 

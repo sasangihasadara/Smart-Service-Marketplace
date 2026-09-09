@@ -39,6 +39,7 @@ export default function AdminLayout({ theme, onToggleTheme }) {
           type="button"
           className="btn btn-ghost admin-logout"
           onClick={() => {
+            localStorage.removeItem("serveiq_token");
             localStorage.removeItem("serveiq_role");
             localStorage.removeItem("serveiq_email");
             localStorage.removeItem("serveiq_status");

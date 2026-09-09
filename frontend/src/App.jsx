@@ -121,6 +121,7 @@ function AppShell() {
 
   const handleSignIn = async ({ email, password, role }) => {
     const result = await postJson("/auth/login", { email, password, role });
+    localStorage.setItem("serveiq_token", result.token || "");
     localStorage.setItem("serveiq_role", result.role);
     localStorage.setItem("serveiq_email", result.email);
     localStorage.setItem("serveiq_status", result.status || "active");
@@ -144,6 +145,7 @@ function AppShell() {
 
   const handleGoogleSignIn = async (credential) => {
     const result = await postJson("/auth/google", { credential });
+    localStorage.setItem("serveiq_token", result.token || "");
     localStorage.setItem("serveiq_role", result.role);
     localStorage.setItem("serveiq_email", result.email);
     localStorage.setItem("serveiq_status", result.status || "active");
@@ -166,6 +168,7 @@ function AppShell() {
 
   const handleRegister = async (form) => {
     const result = await postJson("/auth/register", form);
+    localStorage.setItem("serveiq_token", result.token || "");
     localStorage.setItem("serveiq_role", result.role);
     localStorage.setItem("serveiq_email", result.email);
     localStorage.setItem("serveiq_status", result.status || "active");

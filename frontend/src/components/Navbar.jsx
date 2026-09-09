@@ -13,6 +13,7 @@ export default function Navbar({ theme, onToggleTheme }) {
   }, [location.pathname]);
 
   const logout = () => {
+    localStorage.removeItem("serveiq_token");
     localStorage.removeItem("serveiq_role");
     localStorage.removeItem("serveiq_email");
     localStorage.removeItem("serveiq_status");

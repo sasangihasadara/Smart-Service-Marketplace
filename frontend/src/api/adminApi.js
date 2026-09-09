@@ -2,9 +2,11 @@ export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? "http://localhost:8080/api" : "/api");
 
 async function requestJson(path, options = {}) {
+  const authToken = localStorage.getItem("serveiq_token");
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: {
       "Content-Type": "application/json",
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       ...(options.headers || {}),
     },
     ...options,
