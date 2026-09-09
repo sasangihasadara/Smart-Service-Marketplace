@@ -3,8 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import GoogleSignInButton from "../../components/GoogleSignInButton";
 
 const registerRoles = [
-  { key: "customer", label: "Customer", hint: "Book fast, pay securely, leave reviews." },
-  { key: "provider", label: "Provider", hint: "Create a professional service profile." },
+  { key: "customer", label: "Customer", hint: "Find and book trusted services." },
+  { key: "provider", label: "Provider", hint: "Offer services and manage bookings." },
 ];
 
 const providerCategories = [
@@ -31,7 +31,7 @@ function buildNote(mode, role, notice) {
   }
 
   if (mode === "login") {
-    return "Sign in with your email and password. The system will auto-detect whether you are a customer, provider, or admin.";
+    return "Use your email and password to access your ServeIQ account. Your role is detected automatically after sign in.";
   }
 
   return "Choose the account type that matches how you will use ServeIQ.";
@@ -68,14 +68,14 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
     () =>
       mode === "register"
         ? [
-            "Customer accounts stay simple and quick.",
-            "Provider accounts are reviewed before activation.",
-            "One auth system powers all three roles.",
+            "Customers can quickly find and book trusted services.",
+            "Providers can create a professional profile and start receiving requests.",
+            "Admin approval keeps provider onboarding secure and verified.",
           ]
         : [
-            "No role selection is needed at login.",
-            "The system detects customer, provider, or admin automatically.",
-            "Pending provider accounts stay blocked until approval.",
+            "Use one simple sign-in form for your account.",
+            "Your role is detected automatically after login.",
+            "Provider accounts stay pending until approval.",
           ],
     [mode]
   );
@@ -169,13 +169,13 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
             <div className="auth-hero fade-up">
               <div className="auth-kicker">
                 <span className="auth-kicker-dot" />
-                Role-based authentication
+                Welcome to ServeIQ
               </div>
               <h1>
-                One secure sign-in for <em>customers</em>, <em>providers</em>, and <em>admins</em>.
+                Simple sign-in for <em>customers</em> and <em>providers</em>.
               </h1>
               <p className="auth-hero-copy">
-                ServeIQ keeps authentication simple on the surface and strict underneath. The same login system routes each user to the right workspace with role and approval checks.
+                ServeIQ keeps everyday access simple. Customers can book services quickly, while providers can manage their profile and bookings after approval.
               </p>
 
               <div className="auth-bullet-list">
@@ -189,7 +189,7 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
 
               <div className="auth-side-card">
                 <div className="auth-side-card-head">
-                  <span>{mode === "register" ? "Register flow" : "Login flow"}</span>
+                  <span>{mode === "register" ? "Account options" : "Account access"}</span>
                   <Link
                     to={mode === "register" ? "/login?mode=login" : "/register?mode=register&role=provider"}
                     className="auth-side-link"
@@ -200,16 +200,16 @@ export default function AuthPage({ initialMode = "login", initialRole = "custome
                 <p>{roleNote}</p>
                 <div className="auth-mini-grid">
                   <div>
-                    <strong>Admin</strong>
-                    <span>Internal access only</span>
-                  </div>
-                  <div>
                     <strong>Customer</strong>
                     <span>Book and pay online</span>
                   </div>
                   <div>
                     <strong>Provider</strong>
                     <span>Needs approval</span>
+                  </div>
+                  <div>
+                    <strong>Admin</strong>
+                    <span>Private access</span>
                   </div>
                 </div>
               </div>
