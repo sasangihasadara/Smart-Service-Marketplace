@@ -2242,9 +2242,9 @@ section {
 }
 
 .provider-chip.active {
-  background: var(--primary);
-  color: #171720;
-  border-color: var(--primary);
+  background: #ffffff;
+  color: #4638dc;
+  border-color: rgba(91, 78, 255, 0.35);
 }
 
 .provider-chip--clear {
